@@ -35,10 +35,3 @@ Finalmente, Topaz incluye una función de **Meditación** con un temporizador aj
 🔧 Actualmente en desarrollo.  
 📌 Versión: `26.1`  
 
-## Autor
-
-Desarrollado por [Sean Leitch](https://selekode.github.io/SeanLeitch/)  
-GitHub: [@selekode](https://github.com/selekode)
-
-
-
