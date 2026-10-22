@@ -27,7 +27,7 @@ public class JournalService {
 			entry.setTitle(entryEncryptionService.encryptText(entry.getTitle()));
 			entry.setContentGeneral(entryEncryptionService.encryptText(entry.getContentGeneral()));
 			entry.setContentSaludFisica(entryEncryptionService.encryptText(entry.getContentSaludFisica()));
-			entry.setContentBienestarMental(entryEncryptionService.encryptText(entry.getContentBienestarMental()));
+			entry.setContentBienestarMental(entryEncryptionService.encryptText(entry.getContentSaludMental()));
 			entry.setContentRelacionesSociales(
 					entryEncryptionService.encryptText(entry.getContentRelacionesSociales()));
 			entry.setContentCarreraProfesional(
@@ -46,7 +46,7 @@ public class JournalService {
 					entryEncryptionService.encryptText(entry.getContentContribucionLegado()));
 			entry.setContentErroresCometidos(entryEncryptionService.encryptText(entry.getContentErroresCometidos()));
 		} catch (Exception e) {
-			e.printStackTrace(); // or use a logger
+			e.printStackTrace();
 		}
 		return entry;
 	}
@@ -56,7 +56,7 @@ public class JournalService {
 			entry.setTitle(entryEncryptionService.decryptText(entry.getTitle()));
 			entry.setContentGeneral(entryEncryptionService.decryptText(entry.getContentGeneral()));
 			entry.setContentSaludFisica(entryEncryptionService.decryptText(entry.getContentSaludFisica()));
-			entry.setContentBienestarMental(entryEncryptionService.decryptText(entry.getContentBienestarMental()));
+			entry.setContentBienestarMental(entryEncryptionService.decryptText(entry.getContentSaludMental()));
 			entry.setContentRelacionesSociales(
 					entryEncryptionService.decryptText(entry.getContentRelacionesSociales()));
 			entry.setContentCarreraProfesional(

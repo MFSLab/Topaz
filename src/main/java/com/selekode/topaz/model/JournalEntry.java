@@ -39,7 +39,7 @@ public class JournalEntry {
 	private String contentContribucionLegado;
 	private String contentErroresCometidos;
 
-	// Default constructor required by JPA
+
 	public JournalEntry() {
 	}
 
@@ -105,7 +105,7 @@ public class JournalEntry {
 		this.contentSaludFisica = contentSaludFisica;
 	}
 
-	public String getContentBienestarMental() {
+	public String getContentSaludMental() {
 		return contentBienestarMental;
 	}
 

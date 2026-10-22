@@ -44,7 +44,7 @@ public class DashboardService {
         int longestJournalStreak = DashboardUtils.calculateLongestStreak(journalDates);
         int longestRevisionStreak = DashboardUtils.calculateLongestStreak(revisionDates);
 
-     // --- Check entries today ---
+        // --- Check entries today ---
         LocalDate today = LocalDate.now();
         boolean journalToday = journalRepository.existsByDate(today);
         boolean revisionToday = revisionRepository.existsByDate(today);
