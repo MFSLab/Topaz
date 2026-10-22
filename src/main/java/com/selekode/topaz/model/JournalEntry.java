@@ -28,7 +28,7 @@ public class JournalEntry {
 	private String title;
 	private String contentGeneral;
 	private String contentSaludFisica;
-	private String contentBienestarMental;
+	private String contentSaludMental;
 	private String contentRelacionesSociales;
 	private String contentCarreraProfesional;
 	private String contentEstabilidadFinanciera;
@@ -106,11 +106,11 @@ public class JournalEntry {
 	}
 
 	public String getContentSaludMental() {
-		return contentBienestarMental;
+		return contentSaludMental;
 	}
 
-	public void setContentBienestarMental(String contentBienestarMental) {
-		this.contentBienestarMental = contentBienestarMental;
+	public void setContentSaludMental(String contentSaludMental) {
+		this.contentSaludMental = contentSaludMental;
 	}
 
 	public String getContentRelacionesSociales() {

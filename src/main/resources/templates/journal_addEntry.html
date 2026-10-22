@@ -144,11 +144,11 @@
                         placeholder="Escribe sobre temas como tu sueño, nutrición, deporte, consumo de tóxicos, etc"></textarea>
 
                     <!-- Salud Mental -->
-                    <label for="contentBienestarMental" class="text-accent text-lg font-semibold mb-2 block">Salud
+                    <label for="contentSaludMental" class="text-accent text-lg font-semibold mb-2 block">Salud
                         Mental</label>
-                    <textarea name="contentBienestarMental" id="contentBienestarMental"
-                        class="w-full h-[150px] resize-y p-4 rounded-lg bg-background text-base text-textPrimary mb-6"
-                        th:value="${journalEntry.contentBienestarMental}" placeholder="Escribe sobre lo que has hecho para tu bienestar mental, como ir a terapia, meditar, limitar el uso de pantallas, etc"></textarea>
+                    <textarea name="contentSaludMental" id="contentSaludMental"
+                              class="w-full h-[150px] resize-y p-4 rounded-lg bg-background text-base text-textPrimary mb-6"
+                              th:value="${journalEntry.contentSaludMental}" placeholder="Escribe sobre lo que has hecho para tu salud mental, como ir a terapia, meditar, limitar el uso de pantallas, etc"></textarea>
 
                     <!-- Actividad Profesional -->
                     <label for="contentCarreraProfesional" class="text-accent text-lg font-semibold mb-2 block">Actividad
@@ -187,7 +187,7 @@
                     <textarea name="contentPasatiemposCreatividad" id="contentPasatiemposCreatividad"
                         class="w-full h-[150px] resize-y p-4 rounded-lg bg-background text-base text-textPrimary mb-6"
                         th:value="${journalEntry.contentPasatiemposCreatividad}"
-                        placeholder="Escribe sobre los hobbies que has practicado"></textarea>
+                        placeholder="Escribe sobre los hobbies creativos que has practicado hoy"></textarea>
 
                     <!-- Ocio -->
                     <label for="contentRecreacionDiversion"
@@ -211,7 +211,7 @@
                     <textarea name="contentContribucionLegado" id="contentContribucionLegado"
                         class="w-full h-[150px] resize-y p-4 rounded-lg bg-background text-base text-textPrimary mb-6"
                         th:value="${journalEntry.contentContribucionLegado}"
-                        placeholder="Escribe sobre como has contribuido al mundo"></textarea>
+                        placeholder="Escribe sobre como has contribuido al mundo y que marca has dejado en el"></textarea>
 
                     <!-- Hidden fields -->
                     <input type="hidden" th:field="*{id}" />

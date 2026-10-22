@@ -27,7 +27,7 @@ public class JournalService {
 			entry.setTitle(entryEncryptionService.encryptText(entry.getTitle()));
 			entry.setContentGeneral(entryEncryptionService.encryptText(entry.getContentGeneral()));
 			entry.setContentSaludFisica(entryEncryptionService.encryptText(entry.getContentSaludFisica()));
-			entry.setContentBienestarMental(entryEncryptionService.encryptText(entry.getContentSaludMental()));
+			entry.setContentSaludMental(entryEncryptionService.encryptText(entry.getContentSaludMental()));
 			entry.setContentRelacionesSociales(
 					entryEncryptionService.encryptText(entry.getContentRelacionesSociales()));
 			entry.setContentCarreraProfesional(
@@ -56,7 +56,7 @@ public class JournalService {
 			entry.setTitle(entryEncryptionService.decryptText(entry.getTitle()));
 			entry.setContentGeneral(entryEncryptionService.decryptText(entry.getContentGeneral()));
 			entry.setContentSaludFisica(entryEncryptionService.decryptText(entry.getContentSaludFisica()));
-			entry.setContentBienestarMental(entryEncryptionService.decryptText(entry.getContentSaludMental()));
+			entry.setContentSaludMental(entryEncryptionService.decryptText(entry.getContentSaludMental()));
 			entry.setContentRelacionesSociales(
 					entryEncryptionService.decryptText(entry.getContentRelacionesSociales()));
 			entry.setContentCarreraProfesional(
