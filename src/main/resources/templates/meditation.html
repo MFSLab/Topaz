@@ -11,96 +11,54 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Topaz</title>
     <link th:href="@{/css/output.css}" rel="stylesheet">
-    <script th:src="@{/js/tailwind.js}" defer></script>
-    <script>
-        window.tailwind = window.tailwind || {};
-        tailwind.config = {
-            darkMode: 'class'
-        }
-    </script>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <link rel="stylesheet" th:href="@{/css/aos.css}">
 </head>
 
-<body class=" font-sans leading-normal tracking-normal flex min-h-screen">
+<body class="font-sans leading-normal tracking-normal flex min-h-screen">
+    <!-- Icon sprite: only the icons this page uses (replaces the 400 KB lucide.js) -->
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"><symbol id="icon-arrow-big-left" viewBox="0 0 24 24"><path d="M10.793 19.793a.707.707 0 0 0 1.207-.5V16a1 1 0 0 1 1-1h6a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-6a1 1 0 0 1-1-1V4.707a.707.707 0 0 0-1.207-.5l-6.94 6.94a1.207 1.207 0 0 0 0 1.707z"/></symbol><symbol id="icon-arrow-big-right" viewBox="0 0 24 24"><path d="M13.207 19.793a.707.707 0 0 1-1.207-.5V16a1 1 0 0 0-1-1H5a1 1 0 0 1-1-1v-4a1 1 0 0 1 1-1h6a1 1 0 0 0 1-1V4.707a.707.707 0 0 1 1.207-.5l6.94 6.94a1.207 1.207 0 0 1 0 1.707z"/></symbol><symbol id="icon-bar-chart-2" viewBox="0 0 24 24"><path d="M5 21v-6"/><path d="M12 21V3"/><path d="M19 21V9"/></symbol><symbol id="icon-book-open" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></symbol><symbol id="icon-brain" viewBox="0 0 24 24"><path d="M12 18V5"/><path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/><path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/><path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/><path d="M18 18a4 4 0 0 0 2-7.464"/><path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/><path d="M6 18a4 4 0 0 1-2-7.464"/><path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/></symbol><symbol id="icon-home" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol><symbol id="icon-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol><symbol id="icon-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></symbol><symbol id="icon-refresh-cw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol></svg>
 
-    <!-- Sidebar -->
-    <div
-        class="w-64 bg-background rounded-xl shadow-2xl text-textPrimary p-4 flex flex-col items-center sidebar m-4 h-[90vh]">
+    <!-- Sidebar (Liquid Glass) -->
+<aside class="w-64 glass-sidebar text-textPrimary p-4 flex flex-col items-center sidebar m-4" aria-label="Navegación principal">
 
-
-        <!-- Logo Section -->
-        <div class="flex items-center mb-6 mt-2 flex-col">
-            <img th:src="@{/images/topaz-logo-text.svg}" alt="Logo" class="w-[120px] select-none">
-        </div>
-
-        <!-- Buttons Section -->
-        <div class="space-y-4 w-full flex flex-col items-center">
-            <!-- Dashboard -->
-            <a href="/dashboard/load" class="block w-full">
-                <button
-                    class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar rounded-md transition-colors duration-300 select-none">
-                    <i data-lucide="home" class="w-5 h-5"></i> Inicio
-                </button>
-            </a>
-
-            <!-- Journal -->
-            <a href="/journal/load" class="block w-full">
-                <button
-                    class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar rounded-md transition-colors duration-300 select-none">
-                    <i data-lucide="book-open" class="w-5 h-5"></i> Diario
-                </button>
-            </a>
-
-            <!-- Revision -->
-            <a href="/revision/load" class="block w-full">
-                <button
-                    class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar rounded-md transition-colors duration-300 select-none">
-                    <i data-lucide="refresh-cw" class="w-5 h-5"></i> Revisión
-                </button>
-            </a>
-
-            <!-- Inner Work -->
-            <a href="/innerwork/load" class="block w-full">
-                <button
-                    class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar rounded-md transition-colors duration-300 select-none">
-                    <i data-lucide="brain" class="w-5 h-5"></i> Trabajo Interno
-                </button>
-            </a>
-
-            <!-- Stats -->
-            <a href="/stats/load" class="block w-full">
-                <button
-                    class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar rounded-md transition-colors duration-300 select-none">
-                    <i data-lucide="bar-chart-2" class="w-5 h-5"></i> Estadísticas
-                </button>
-            </a>
-
-            <!-- Meditation -->
-            <a href="/meditacion/load" class="block w-full">
-                <button
-                    class="w-full flex items-center gap-2 text-left py-2 px-4 button-accent rounded-md transition-colors duration-300 hover:button-accent select-none">
-                    <i data-lucide="moon" class="w-5 h-5"></i> Meditación
-                </button>
-            </a>
-
-            <!-- About -->
-            <a href="/about" class="block w-full">
-                <button
-                    class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar rounded-md transition-colors duration-300 select-none">
-                    <i data-lucide="info" class="w-5 h-5"></i> Sobre Topaz
-                </button>
-            </a>
-        </div>
+    <!-- Logo -->
+    <div class="flex items-center mb-6 mt-2 flex-col">
+        <img th:src="@{/images/topaz-logo-text.svg}" alt="Logo" class="w-[120px] select-none">
     </div>
 
-    <!-- Main content -->
-    <div class="main-content  flex-grow bg-background p-6 select-none">
-        <main class="container mx-auto mt-6 p-4">
-            <h1 data-aos="zoom-in" class="text-3xl font-bold mb-4 text-textPrimary">Meditación</h1>
+    <!-- Navigation -->
+    <nav class="space-y-2 w-full flex flex-col items-center">
+            <a href="/dashboard/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-home"/></svg> Inicio
+            </a>
+            <a href="/journal/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-book-open"/></svg> Diario
+            </a>
+            <a href="/revision/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-refresh-cw"/></svg> Revisión
+            </a>
+            <a href="/innerwork/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-brain"/></svg> Trabajo Interno
+            </a>
+            <a href="/stats/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-bar-chart-2"/></svg> Estadísticas
+            </a>
+            <a href="/meditacion/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-accent select-none" aria-current="page">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-moon"/></svg> Meditación
+            </a>
+            <a href="/about" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-info"/></svg> Sobre Topaz
+            </a>
+    </nav>
+</aside>
 
-            <div class="bg-surface p-6 rounded-xl shadow-md" data-aos="fade-up">
-                <p class="text-lg  font-bold mb-4 text-accent text-left">Temporizador de Meditación</p>
+
+<!-- Main content -->
+    <div class="main-content flex-grow p-6 select-none">
+        <main class="container mx-auto mt-6 p-4">
+            <h1 class="text-3xl font-bold mb-4 text-textPrimary">Meditación</h1>
+
+            <div class="glass-card p-6">
+                <p class="text-lg font-bold mb-4 text-accent text-left">Temporizador de Meditación</p>
 
                 <!-- Time input -->
                 <div class="flex flex-col items-center justify-center gap-2 mb-4">
@@ -108,7 +66,7 @@
 
                     <div class="flex items-center gap-2">
                         <input id="timeInput" type="number" min="1" max="120" value="15"
-                            class="w-16 button-accent text-textPrimary text-center rounded-lg px-2 py-1 outline-none" />
+                            class="glass-input w-16 text-textPrimary text-center px-2 py-1" />
                         <span class="text-textPrimary">minutos</span>
                     </div>
                 </div>
@@ -116,18 +74,18 @@
                 <!-- Buttons -->
                 <div class="flex gap-2 justify-center mb-6">
                     <button id="customStartBtn"
-                        class="button-accent text-textPrimary px-4 py-2 rounded-lg transition-all duration-300 hover:button-accent ">
+                        class="button-accent text-textPrimary px-4 py-2 rounded-lg transition-all duration-300">
                         Iniciar
                     </button>
                     <button id="customRestartBtn"
-                        class="button-accent text-textPrimary px-4 py-2 rounded-lg transition-all duration-300 hover:button-accent ">
+                        class="button-accent text-textPrimary px-4 py-2 rounded-lg transition-all duration-300">
                         Reiniciar
                     </button>
                 </div>
 
                 <!-- Progress bar -->
-                <div class="w-full bg-surface border rounded-md h-4 mb-4 overflow-hidden">
-                    <div id="customProgress" class="h-full bg-accent  transition-all duration-1000" style="width: 0%;">
+                <div class="glass-progress mb-4">
+                    <div id="customProgress" class="h-full bg-accent transition-all duration-1000" style="width: 0%;">
                     </div>
                 </div>
 
@@ -135,14 +93,14 @@
                 <p id="customTimer" class="text-center text-textPrimary text-2xl mb-4">15:00</p>
             </div>
 
-            <div class="bg-surface p-6 rounded-xl shadow-md mt-4" data-aos="fade-up" x-data="{ open: false }">
+            <div class="glass-card p-6 mt-4" x-data="{ open: false }">
                 <!-- Mindfulness Instructions -->
                 <div class="text-textPrimary text-base space-y-2">
-                    <p class="text-lg  font-bold mb-4 text-accent text-left">Cómo Practicar la Atención Plena</p>
+                    <p class="text-lg font-bold mb-4 text-accent text-left">Cómo Practicar la Atención Plena</p>
 
                     <!-- Show/Hide Button 
                     <button @click="open = !open"
-                        class="px-4 py-2 rounded-md button-accent  text-textPrimary text-sm transition hover:button-secondary-bg">
+                        class="px-4 py-2 rounded-md button-accent text-textPrimary text-sm transition">
                         <span x-text="open ? 'Ocultar' : 'Mostrar'"></span>
                     </button>
 -->
@@ -165,12 +123,12 @@
                         <!-- Navigation Buttons -->
                         <div class="flex justify-center mt-4 gap-4">
                             <button @click="step = step > 1 ? step - 1 : max"
-                                class="px-4 py-2 bg-accent text-white rounded-lg hover:bg-[#1d828f] transition">
-                                <i data-lucide="arrow-big-left" class="w-4 h-4"></i>
+                                class="button-accent px-4 py-2 transition">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-arrow-big-left"/></svg>
                             </button>
                             <button @click="step = step < max ? step + 1 : 1"
-                                class="px-4 py-2 bg-accent text-white rounded-lg hover:bg-[#1d828f] transition">
-                                <i data-lucide="arrow-big-right" class="w-4 h-4"></i>
+                                class="button-accent px-4 py-2 transition">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-arrow-big-right"/></svg>
                             </button>
                         </div>
 
@@ -253,17 +211,7 @@
 
     </div>
     <script th:src="@{/js/deleteFeature_openModal.js}" defer></script>
-    <script th:src="@{/js/aos.js}" defer></script>
     <script th:src="@{/js/alpine.js}" defer></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            AOS.init();
-        });
-    </script>
-    <script th:src="@{/js/lucide.js}"></script>
-    <script>
-        lucide.createIcons();
-    </script>
 </body>
 
 </html>

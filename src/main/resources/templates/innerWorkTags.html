@@ -11,116 +11,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Topaz</title>
     <link th:href="@{/css/output.css}" rel="stylesheet">
-    <script th:src="@{/js/tailwind.js}" defer></script>
-    <script>
-        window.tailwind = window.tailwind || {};
-        tailwind.config = {
-            darkMode: 'class'
-        }
-    </script>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <link rel="stylesheet" th:href="@{/css/aos.css}">
 </head>
 
-<body class=" font-sans leading-normal tracking-normal flex min-h-screen">
+<body class="font-sans leading-normal tracking-normal flex min-h-screen">
+    <!-- Icon sprite: only the icons this page uses (replaces the 400 KB lucide.js) -->
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"><symbol id="icon-arrow-big-left" viewBox="0 0 24 24"><path d="M10.793 19.793a.707.707 0 0 0 1.207-.5V16a1 1 0 0 1 1-1h6a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-6a1 1 0 0 1-1-1V4.707a.707.707 0 0 0-1.207-.5l-6.94 6.94a1.207 1.207 0 0 0 0 1.707z"/></symbol><symbol id="icon-bar-chart-2" viewBox="0 0 24 24"><path d="M5 21v-6"/><path d="M12 21V3"/><path d="M19 21V9"/></symbol><symbol id="icon-book-open" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></symbol><symbol id="icon-brain" viewBox="0 0 24 24"><path d="M12 18V5"/><path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/><path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/><path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/><path d="M18 18a4 4 0 0 0 2-7.464"/><path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/><path d="M6 18a4 4 0 0 1-2-7.464"/><path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/></symbol><symbol id="icon-file-plus-2" viewBox="0 0 24 24"><path d="M11.35 22H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v5.35"/><path d="M14 2v5a1 1 0 0 0 1 1h5"/><path d="M14 19h6"/><path d="M17 16v6"/></symbol><symbol id="icon-home" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol><symbol id="icon-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol><symbol id="icon-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></symbol><symbol id="icon-pencil" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z"/><path d="m15 5 4 4"/></symbol><symbol id="icon-refresh-cw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol><symbol id="icon-trash-2" viewBox="0 0 24 24"><path d="M10 11v6"/><path d="M14 11v6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></symbol></svg>
 
-    <!-- Sidebar -->
-    <div
-        class="w-64 bg-background rounded-xl shadow-2xl text-textPrimary p-4 flex flex-col items-center sidebar m-4 h-[90vh]">
+    <!-- Sidebar (Liquid Glass) -->
+<aside class="w-64 glass-sidebar text-textPrimary p-4 flex flex-col items-center sidebar m-4" aria-label="Navegación principal">
 
-
-        <!-- Logo Section -->
-        <div class="flex items-center mb-6 mt-2 flex-col">
-            <img th:src="@{/images/topaz-logo-text.svg}" alt="Logo" class="w-[120px] select-none">
-        </div>
-
-
-
-        <!-- Buttons Section -->
-        <div class="space-y-4 w-full flex flex-col items-center">
-            <!-- Rounded buttons for other actions -->
-            <a href="/dashboard/load" class="block w-full">
-                <button
-                    class="w-full text-left py-2 px-4 button-sidebar  rounded-md transition-colors duration-300 select-none">
-                    Inicio
-                </button>
-            </a>
-            <a href="/journal/load" class="block w-full">
-                <button
-                    class="w-full text-left py-2 px-4 button-sidebar  rounded-md transition-colors duration-300 select-none">
-                    Diario
-                </button>
-            </a>
-            <a href="/revision/load" class="block w-full">
-                <button
-                    class="w-full text-left py-2 px-4 button-sidebar  rounded-md transition-colors duration-300 select-none">
-                    Revisión
-                </button>
-            </a>
-            <a href="/innerwork/load" class="block w-full">
-                <button
-                    class="w-full text-left py-2 px-4 button-accent rounded-md transition-colors duration-300 hover:button-accent ">
-                    Trabajo Interno
-                </button>
-            </a>
-            <a href="/stats/load" class="block w-full">
-                <button
-                    class="w-full text-left py-2 px-4 button-sidebar  rounded-md transition-colors duration-300 select-none">
-                    Estadísticas
-                </button>
-            </a>
-            <a href="/meditacion/load" class="block w-full">
-                <button
-                    class="w-full text-left py-2 px-4 button-sidebar  rounded-md transition-colors duration-300 select-none">
-                    Meditación
-                </button>
-            </a>
-            <a href="/about" class="block w-full">
-                <button
-                    class="w-full text-left py-2 px-4 button-sidebar  rounded-md transition-colors duration-300 select-none">
-                    Sobre Topaz
-                </button>
-            </a>
-        </div>
+    <!-- Logo -->
+    <div class="flex items-center mb-6 mt-2 flex-col">
+        <img th:src="@{/images/topaz-logo-text.svg}" alt="Logo" class="w-[120px] select-none">
     </div>
 
+    <!-- Navigation -->
+    <nav class="space-y-2 w-full flex flex-col items-center">
+            <a href="/dashboard/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-home"/></svg> Inicio
+            </a>
+            <a href="/journal/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-book-open"/></svg> Diario
+            </a>
+            <a href="/revision/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-refresh-cw"/></svg> Revisión
+            </a>
+            <a href="/innerwork/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-accent select-none" aria-current="page">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-brain"/></svg> Trabajo Interno
+            </a>
+            <a href="/stats/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-bar-chart-2"/></svg> Estadísticas
+            </a>
+            <a href="/meditacion/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-moon"/></svg> Meditación
+            </a>
+            <a href="/about" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-info"/></svg> Sobre Topaz
+            </a>
+    </nav>
+</aside>
 
-    <!-- Main content -->
-    <div class="main-content  flex-grow bg-background p-6">
+
+<!-- Main content -->
+    <div class="main-content flex-grow p-6">
         <main class="container mx-auto mt-6 p-4">
-            <h1 data-aos="zoom-in" class="text-2xl font-bold mb-4 text-textPrimary selected-none">Trabajo Interno</h1>
+            <h1 class="text-2xl font-bold mb-4 text-textPrimary select-none">Trabajo Interno</h1>
 
-            <div data-aos="fade-left" class="bg-surface p-6 rounded-xl shadow-md flex flex-col justify-between">
+            <div class="glass-card p-6 flex flex-col justify-between">
                 <div class="mb-4 flex items-center justify-between">
                     <a href="/innerwork/load"
-                        class="text-textPrimary button-accent  transition-colors duration-300 hover:button-secondary-bg py-2 px-4 rounded-md select-none"><i
-                            data-lucide="arrow-big-left" class="w-4 h-4"></i></a>
+                        class="text-textPrimary button-accent transition-colors duration-300 py-2 px-4 rounded-md select-none"><svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-arrow-big-left"/></svg></a>
 
                     <h2 class="text-xl text-accent font-bold select-none">Etiquetas</h2>
 
                     <a href="/innerwork/tags/addTag">
                         <button
-                            class="ml-auto text-textPrimary button-accent transition-colors duration-300 hover:button-secondary-bg py-2 px-3 rounded-md select-none flex items-center justify-center">
-                            <i data-lucide="file-plus-2" class="w-4 h-4"></i>
+                            class="ml-auto text-textPrimary button-accent transition-colors duration-300 py-2 px-3 rounded-md select-none flex items-center justify-center">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-file-plus-2"/></svg>
                         </button>
                     </a>
                 </div>
 
                 <!-- Iterate over inner work entries -->
-                <div data-aos="fade-up" th:each="InnerWorkTag : ${innerWorkTags}" x-data="{ open: false }"
-                    class="relative bg-background p-6 rounded-xl shadow-md mb-6">
+                <div th:each="InnerWorkTag : ${innerWorkTags}" x-data="{ open: false }"
+                    class="glass-inset relative p-6 mb-6">
 
                     <div class="absolute top-4 right-4 flex space-x-2">
                         <!-- Edit button -->
                         <a th:href="@{/innerwork/tags/editTag/{id}(id=${InnerWorkTag.id})}"
-                            class="px-3 py-2 rounded-md button-accent text-textPrimary text-sm transition hover:button-secondary-bg flex items-center justify-center">
-                            <i data-lucide="pencil" class="w-4 h-4"></i>
+                            class="px-3 py-2 rounded-md button-accent text-textPrimary text-sm transition flex items-center justify-center">
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-pencil"/></svg>
                         </a>
 
                         <!-- Delete button -->
                         <button th:attr="onclick='openModal(' + ${InnerWorkTag.id} + ')'"
                             class="px-3 py-2 rounded-md button-delete-bg text-textPrimary text-sm transition flex items-center justify-center">
-                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                            <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-trash-2"/></svg>
                         </button>
                     </div>
 
@@ -133,18 +99,18 @@
 
             <!-- Modal HTML -->
             <div id="confirmModal"
-                class="modal hidden fixed inset-0 bg-gray-600 bg-opacity-50 flex justify-center items-center">
-                <div class="modal-content rounded-lg p-6">
+                class="modal hidden">
+                <div class="modal-content p-6">
                     <h3 class="text-lg text-justify text-textPrimary font-bold mb-4 select-none">¿Seguro que quieres
                         eliminar
                         esta etiqueta?</h3>
                     <form id="deleteForm" method="post" action="/innerwork/tags/deleteTag">
                         <input type="hidden" id="journalId" name="id" />
                         <button type="submit"
-                            class="w-28 h-10 button-accent  text-textPrimary rounded-md transition-colors duration-300 hover:button-secondary-bg select-none">Si,
+                            class="w-28 h-10 button-accent text-textPrimary rounded-md transition-colors duration-300 select-none">Si,
                             Eliminar</button>
                         <button type="button"
-                            class="ml-4 w-28 h-10 bg-gray-500 text-white rounded-md transition-colors duration-300 hover:bg-gray-600 select-none"
+                            class="button-secondary-bg text-textPrimary ml-4 w-28 h-10 transition-colors duration-300 select-none"
                             onclick="closeModal()">Cancelar</button>
                     </form>
                 </div>
@@ -152,17 +118,7 @@
         </main>
     </div>
     <script th:src="@{/js/deleteFeature_openModal.js}" defer></script>
-    <script th:src="@{/js/aos.js}" defer></script>
     <script th:src="@{/js/alpine.js}" defer></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            AOS.init();
-        });
-    </script>
-    <script th:src="@{/js/lucide.js}"></script>
-    <script>
-        lucide.createIcons();
-    </script>
 </body>
 
 </html>

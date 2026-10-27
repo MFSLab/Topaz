@@ -1,3 +1,24 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+/* ==========================================================================
+   Topaz · Tailwind v4 entry point.
+   Build (needs Node):  npx @tailwindcss/cli -i ./input.css -o ./output.css --minify
+   Offline alternative: python3 build-css.py            (project root)
+   Produces ONE stylesheet: Tailwind (preflight + used utilities) + Liquid Glass.
+   ========================================================================== */
+@import "tailwindcss";
+
+/* Scan the Thymeleaf templates (path is relative to this file) */
+@source "../../templates";
+
+/* Dark mode is the `dark` class on <html> (set by theme.js), not the OS setting */
+@custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    --font-sans: "Ubuntu", system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* Liquid Glass layers (unlayered => they win over Tailwind's layers) */
+@import "./glass/fonts.css";
+@import "./glass/tokens.css";
+@import "./glass/base.css";
+@import "./glass/components.css";
+@import "./glass/vendors.css";

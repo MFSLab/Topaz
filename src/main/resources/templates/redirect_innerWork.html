@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
     <script>
@@ -11,50 +11,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Topaz</title>
     <link th:href="@{/css/output.css}" rel="stylesheet">
-    <script th:src="@{/js/tailwind.js}" defer></script>
-    <script>
-        window.tailwind = window.tailwind || {};
-        tailwind.config = {
-            darkMode: 'class'
-        }
-    </script>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <link rel="stylesheet" th:href="@{/css/aos.css}">
-    
+
     <script type="text/javascript">
         window.location.href = '/innerwork/load';
     </script>
 </head>
 
-<body class=" font-sans leading-normal tracking-normal flex min-h-screen">
+<body class="font-sans leading-normal tracking-normal flex items-center justify-center min-h-screen">
 
-    <!-- Sidebar -->
-    <div class="w-64 bg-[#1E3D48] text-textPrimary p-4 flex flex-col items-center">
-        <!-- Logo Section -->
-        <div class="flex items-center mb-6 mt-2 flex-col">
-            <img th:src="@{/images/topaz-logo-text.svg}" alt="Logo" class="w-[120px]">
-        </div>
-        
-        
+    <!-- Liquid Glass loading card -->
+    <main class="glass-card p-8 text-center w-full max-w-sm" role="status" aria-live="polite">
+        <img th:src="@{/images/topaz-logo-text.svg}" alt="Logo" class="w-[120px] select-none mx-auto mb-6">
+        <div class="glass-spinner"></div>
+        <h1 class="text-xl text-textPrimary select-none">Cargando...</h1>
+        <noscript><a class="text-accent" href="/innerwork/load">Continuar</a></noscript>
+    </main>
 
-        <div class="space-y-4 w-full flex flex-col items-center">
-            <!-- Rounded buttons for other actions -->
-            <button class="w-full text-left py-2 px-4 button-accent  rounded-md hover:button-secondary-bg">Diario</button>
-            <button class="w-full text-left py-2 px-4 button-accent  rounded-md hover:button-secondary-bg">Revisión</button>
-            <button class="w-full text-left py-2 px-4 button-accent  rounded-md hover:button-secondary-bg">Stats</button>
-            <button class="w-full text-left py-2 px-4 button-accent  rounded-md hover:button-secondary-bg">Sobre Topaz</button>
-        </div>
-    </div>
-
-    <!-- Main content -->
-    <div class="flex-grow bg-background p-6">
-        <main class="container mx-auto mt-6 p-4">
-            <div class="bg-surface p-6 rounded-xl shadow-md">
-                    <h1 class="text-gray-700 text-xl mb-4" style="color: #FFFFFF;">Cargando...</h1>
-            </div>
-        </main>
-    </div>
 </body>
 
-</html>
 </html>

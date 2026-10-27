@@ -1,0 +1,224 @@
+/* ==========================================================================
+   Topaz · Liquid Glass · 3/4 COMPONENTS
+   .glass-*  = new components.
+   Legacy names (.bg-surface, .button-accent, ...) are kept as aliases because
+   templates and Alpine :class bindings still reference them.
+   ========================================================================== */
+
+/* --- Glass surface mixin (cards, sidebar, modal, nested panels) ----------- */
+.glass-card, .bg-surface, .glass-sidebar, .modal-content {
+    position: relative;
+    background: var(--glass-bg);
+    -webkit-backdrop-filter: var(--blur);
+    backdrop-filter: var(--blur);
+    border: 1px solid var(--glass-border);
+    box-shadow:
+        var(--glass-shadow),
+        inset 0 1px 0 var(--glass-highlight),         /* specular top edge  */
+        inset 0 -1px 0 rgba(255,255,255,0.08),
+        0 0 0 1px var(--glass-edge);                  /* hairline for contrast */
+}
+
+/* (Sheen is part of --glass-bg now; no ::before layers, no per-child stacking contexts.) */
+
+.glass-card, .bg-surface { border-radius: var(--r-lg); }
+
+.glass-sidebar { border-radius: var(--r-xl); box-shadow: var(--glass-shadow-lg), inset 0 1px 0 var(--glass-highlight), 0 0 0 1px var(--glass-edge); }
+
+/* Nested panel (inside a card): flatter, lighter glass */
+.glass-inset, .bg-background {
+    background: var(--glass-inset-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--r-md);
+    box-shadow: inset 0 1px 0 var(--glass-highlight);
+    -webkit-backdrop-filter: var(--blur-soft);
+    backdrop-filter: var(--blur-soft);
+}
+
+/* --- Inputs ---------------------------------------------------------------- */
+.glass-input, select {
+    background: var(--glass-input-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--glass-border);
+    border-radius: var(--r-md);
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.06), inset 0 1px 0 var(--glass-highlight);
+    -webkit-backdrop-filter: var(--blur-soft);
+    backdrop-filter: var(--blur-soft);
+    transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
+}
+.glass-input::placeholder { color: var(--text-secondary); opacity: 0.7; }
+.glass-input:focus, select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-soft), inset 0 1px 0 var(--glass-highlight);
+}
+select { padding: 0.65rem 2.25rem 0.65rem 1rem; margin-bottom: 1rem; cursor: pointer; }
+select option { background: #fff; color: #1C1C1E; }
+html.dark select option { background: #1C1E26; color: #F2F2F7; }
+
+/* Checkboxes: accent colour + soft rounding */
+input[type="checkbox"] { accent-color: var(--accent); width: 1.1rem; height: 1.1rem; border-radius: 6px; cursor: pointer; }
+
+/* Rating stepper (+/-) */
+.glass-stepper {
+    background: var(--glass-input-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--glass-border);
+    font-weight: 700;
+    min-width: 2.25rem;
+    transition: background var(--t) var(--ease), color var(--t) var(--ease), transform 0.12s var(--ease);
+}
+.glass-stepper:hover { background: var(--accent); color: #fff; }
+.glass-stepper:active { transform: scale(0.94); }
+
+/* --- Buttons ---------------------------------------------------------------- */
+.button-accent, .button-sidebar, .button-secondary-bg, .button-delete-bg, .button-theme-toggle {
+    border-radius: var(--r-pill) !important;
+    cursor: pointer;
+    transition: background-color 0.2s var(--ease), transform 0.15s var(--ease), color 0.2s var(--ease);
+}
+.button-accent:active, .button-sidebar:active, .button-secondary-bg:active, .button-delete-bg:active { transform: scale(0.97); }
+
+/* Primary: tinted liquid glass */
+.button-accent {
+    background: linear-gradient(180deg, color-mix(in srgb, var(--accent) 92%, #fff), var(--accent));
+    color: var(--text-on-accent) !important;
+    border: 1px solid rgba(255,255,255,0.45);
+    box-shadow: 0 6px 16px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.55);
+}
+.button-accent:hover {
+    background: linear-gradient(180deg, var(--accent), var(--accent-strong));
+    color: var(--text-on-accent) !important;
+    box-shadow: 0 8px 22px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.55);
+}
+
+/* Secondary: clear glass (also the inactive tab in Alpine :class) */
+.button-secondary-bg {
+    background: var(--glass-inset-bg);
+    color: var(--text-primary);
+    border: 1px solid var(--glass-border);
+    box-shadow: inset 0 1px 0 var(--glass-highlight);
+}
+.button-secondary-bg:hover { background: var(--accent-soft); }
+
+/* Sidebar item: transparent until hovered; active item uses .button-accent */
+.button-sidebar {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid transparent;
+}
+.button-sidebar:hover {
+    background: var(--accent-soft);
+    color: var(--text-accent) !important;
+    border-color: var(--glass-border);
+    box-shadow: inset 0 1px 0 var(--glass-highlight);
+}
+.sidebar .button-accent { box-shadow: 0 6px 18px var(--accent-glow), inset 0 1px 0 rgba(255,255,255,0.55); }
+
+/* Destructive */
+.button-delete-bg {
+    background: transparent;
+    color: var(--danger);
+    border: 1px solid color-mix(in srgb, var(--danger) 70%, transparent);
+}
+.button-delete-bg:hover { background: color-mix(in srgb, var(--danger) 16%, transparent); }
+
+/* Theme toggle (about.html) */
+.button-theme-toggle { background: var(--glass-inset-bg); border: 1px solid var(--glass-border); }
+.button-theme-toggle:hover { background: var(--accent) !important; border-color: var(--accent); }
+.button-theme-toggle:hover #theme-toggle-text,
+.button-theme-toggle:hover .theme-icon-moon svg,
+.button-theme-toggle:hover .theme-icon-sun svg { color: #fff !important; }
+
+/* Icon-only action buttons that sit inside cards stay compact and round */
+.absolute.top-4.right-4 > * { border-radius: var(--r-pill) !important; }
+
+/* --- Emotion chips (revision.html) ------------------------------------------
+   Replaces the pastel bg-*-100 utilities with tinted translucent glass.
+   Colour is chosen with .chip-<hue> ; intensity with .chip-strong            */
+.glass-chip {
+    --chip: 140 150 160;
+    display: inline-flex; align-items: center;
+    padding: 0.2rem 0.8rem;
+    border-radius: var(--r-pill);
+    font-size: 0.75rem; font-weight: 500;
+    color: var(--text-primary);
+    background: rgb(var(--chip) / 0.20);
+    border: 1px solid rgb(var(--chip) / 0.50);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.45);
+    -webkit-backdrop-filter: var(--blur-soft); backdrop-filter: var(--blur-soft);
+}
+.glass-chip.chip-strong { font-weight: 700; background: rgb(var(--chip) / 0.32); }
+.chip-gray    { --chip: 140 150 160; }  .chip-emerald { --chip: 16 185 129; }
+.chip-green   { --chip: 34 197 94; }    .chip-lime    { --chip: 132 204 22; }
+.chip-teal    { --chip: 20 184 166; }   .chip-cyan    { --chip: 6 182 212; }
+.chip-sky     { --chip: 14 165 233; }   .chip-yellow  { --chip: 234 179 8; }
+.chip-amber   { --chip: 245 158 11; }   .chip-orange  { --chip: 249 115 22; }
+.chip-blue    { --chip: 59 130 246; }   .chip-indigo  { --chip: 99 102 241; }
+.chip-slate   { --chip: 100 116 139; }  .chip-rose    { --chip: 244 63 94; }
+.chip-red     { --chip: 239 68 68; }    .chip-violet  { --chip: 139 92 246; }
+.chip-fuchsia { --chip: 217 70 239; }   .chip-purple  { --chip: 168 85 247; }
+.chip-pink    { --chip: 236 72 153; }
+
+/* Section title inside forms (replaces border-b border-accent/30) */
+.glass-section-title {
+    color: var(--text-accent); font-weight: 700;
+    padding-bottom: 0.35rem; margin-bottom: 0.25rem;
+    border-bottom: 1px solid var(--glass-border);
+    box-shadow: 0 1px 0 var(--glass-edge);
+}
+
+/* --- Modal ------------------------------------------------------------------ */
+.modal {
+    display: none;
+    position: fixed; inset: 0;
+    background: rgba(10, 14, 20, 0.38);
+    -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);   /* modal only: content really passes behind */
+    justify-content: center; align-items: center;
+    z-index: 50;
+}
+/* Original pages toggle the Tailwind `hidden` class; keep that contract intact */
+.modal:not(.hidden) { display: flex; }
+.modal-content {
+    padding: 1.75rem; text-align: center; color: var(--text-primary);
+    border-radius: var(--r-xl);
+    max-width: 28rem; width: calc(100% - 2rem);
+    box-shadow: var(--glass-shadow-lg), inset 0 1px 0 var(--glass-highlight);
+    animation: glass-pop 0.32s var(--ease);
+}
+.modal-content h3 { color: var(--text-primary); }
+@keyframes glass-pop { from { opacity: 0; transform: translateY(8px) scale(0.96); } to { opacity: 1; transform: none; } }
+
+/* Cancel button inside modals (was bg-gray-500) */
+.modal-content button[type="button"].bg-gray-500 {
+    background: var(--glass-inset-bg) !important; color: var(--text-primary) !important;
+    border: 1px solid var(--glass-border); border-radius: var(--r-pill);
+}
+.modal-content button[type="button"].bg-gray-500:hover { background: var(--accent-soft) !important; }
+.modal-content button[type="submit"] { border-radius: var(--r-pill); }
+
+/* --- Progress bar (meditation) ---------------------------------------------- */
+.glass-progress {
+    background: var(--glass-inset-bg); border: 1px solid var(--glass-border);
+    border-radius: var(--r-pill); overflow: hidden; height: 1rem;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.12);
+}
+.glass-progress > div { background: linear-gradient(90deg, var(--accent), color-mix(in srgb, var(--accent) 70%, #fff)); border-radius: inherit; box-shadow: 0 0 12px var(--accent-glow); }
+
+/* --- Redirect / loading card ------------------------------------------------ */
+.glass-spinner {
+    width: 2.25rem; height: 2.25rem; border-radius: 50%;
+    border: 3px solid var(--accent-soft); border-top-color: var(--accent);
+    animation: glass-spin 0.8s linear infinite; margin: 0 auto 1rem;
+}
+@keyframes glass-spin { to { transform: rotate(360deg); } }
+
+/* --- Fallback when backdrop-filter is unsupported -> more opaque panes ------- */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .glass-card, .bg-surface, .glass-sidebar, .modal-content { background: rgba(250,250,252,0.94); }
+    html.dark .glass-card, html.dark .bg-surface, html.dark .glass-sidebar, html.dark .modal-content { background: rgba(28,30,38,0.96); }
+}
+
+/* --- Sidebar positioning (must live AFTER the glass mixin, which sets position: relative) --- */
+.glass-sidebar.sidebar { position: fixed; }
+@media (max-width: 900px) { .glass-sidebar.sidebar { position: relative; } }

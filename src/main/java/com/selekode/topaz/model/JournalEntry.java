@@ -43,28 +43,6 @@ public class JournalEntry {
 	public JournalEntry() {
 	}
 
-	// Optional: constructor with all fields except ID
-	/*
-	 * public JournalEntry(LocalDate date, String title, String contentGeneral,
-	 * String contentSaludFisica, String contentBienestarMental, String
-	 * contentRelacionesSociales, String contentCarreraProfesional, String
-	 * contentEstabilidadFinanciera, String contentCrecimientoPersonal, String
-	 * contentPasatiemposCreatividad, String contentEspiritualidadProposito, String
-	 * contentRecreacionDiversion, String contentContribucionLegado, String
-	 * contentErroresCometidos) { this.date = date; this.title = title;
-	 * this.contentGeneral = contentGeneral; this.contentSaludFisica =
-	 * contentSaludFisica; this.contentBienestarMental = contentBienestarMental;
-	 * this.contentRelacionesSociales = contentRelacionesSociales;
-	 * this.contentCarreraProfesional = contentCarreraProfesional;
-	 * this.contentEstabilidadFinanciera = contentEstabilidadFinanciera;
-	 * this.contentCrecimientoPersonal = contentCrecimientoPersonal;
-	 * this.contentPasatiemposCreatividad = contentPasatiemposCreatividad;
-	 * this.contentEspiritualidadProposito = contentEspiritualidadProposito;
-	 * this.contentRecreacionDiversion = contentRecreacionDiversion;
-	 * this.contentContribucionLegado = contentContribucionLegado;
-	 * this.contentErroresCometidos = contentErroresCometidos; }
-	 */
-	// Getters and setters
 	public Long getId() {
 		return id;
 	}

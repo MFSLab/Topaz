@@ -11,19 +11,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Topaz</title>
     <link th:href="@{/css/output.css}" rel="stylesheet">
-    <script th:src="@{/js/tailwind.js}" defer></script>
-    <script>
-        window.tailwind = window.tailwind || {};
-        tailwind.config = {
-            darkMode: 'class'
-        }
-    </script>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <link rel="stylesheet" th:href="@{/css/aos.css}">
 </head>
 
-<body class="font-sans leading-normal tracking-normal flex items-center justify-center min-h-screen bg-background">
-    <div class="bg-surface p-6 rounded-xl shadow-md w-full max-w-md" data-aos="fade-up">
+<body class="font-sans leading-normal tracking-normal flex items-center justify-center min-h-screen">
+    <div class="glass-card p-6 w-full max-w-md">
         <!-- Logo Section -->
         <div class="flex items-center mb-6 mt-2 flex-col">
             <img th:src="@{/images/topaz-logo-text.svg}" alt="Logo" class="w-[120px] select-none">
@@ -33,15 +24,12 @@
             <div>
                 <label class="text-accent font-bold text-sm mb-1 block" for="password">Contraseña</label>
                 <input id="password" name="password" type="password" placeholder="Ingresa tu contraseña"
-                    class="w-full p-3 rounded-xl bg-background border border-[#23A3BB] text-textPrimary
-         focus:outline-none focus:ring-2 focus:ring-[#23A3BB]
-         transition-all duration-300 ease-in-out
-         transform focus:scale-102"
+                    class="glass-input w-full p-3 text-textPrimary"
                     required>
             </div>
 
             <button type="submit"
-                class="mt-4 button-accent hover:bg-[#1C8FA1] text-[#fff] font-bold py-3 rounded-xl transition-colors duration-300">
+                class="mt-4 button-accent font-bold py-3 rounded-xl transition-colors duration-300">
                 Iniciar sesión
             </button>
         </form>
@@ -55,7 +43,7 @@
         </div>
 
         <!-- Optional error messages -->
-        <div th:if="${param.error}" class="mt-4 text-red-500 text-center text-sm">
+        <div th:if="${param.error}" class="mt-4 text-alert text-center text-sm">
             La contraseña es incorrecta
         </div>
 
@@ -65,17 +53,7 @@
     </div>
 
     <script th:src="@{/js/deleteFeature_openModal.js}" defer></script>
-    <script th:src="@{/js/aos.js}" defer></script>
     <script th:src="@{/js/alpine.js}" defer></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            AOS.init();
-        });
-    </script>
-    <script th:src="@{/js/lucide.js}"></script>
-    <script>
-        lucide.createIcons();
-    </script>
 </body>
 
 

@@ -1,0 +1,23 @@
+/* ==========================================================================
+   Topaz · Liquid Glass · 0/5 FONTS  (self-hosted Ubuntu, no network at runtime)
+   Resolution order per face: installed system font -> bundled .woff2 -> next family
+   in the stack (system-ui). Files live in static/fonts/ and are fetched ONCE with
+   `python3 fetch-ubuntu-fonts.py` (see CHANGES.md).  font-display: swap = text is
+   never invisible while a font loads.
+   ========================================================================== */
+@font-face {
+    font-family: "Ubuntu"; font-style: normal; font-weight: 400; font-display: swap;
+    src: local("Ubuntu"), local("Ubuntu-Regular"), url("../fonts/ubuntu-400.woff2") format("woff2");
+}
+@font-face {
+    font-family: "Ubuntu"; font-style: normal; font-weight: 500; font-display: swap;
+    src: local("Ubuntu Medium"), local("Ubuntu-Medium"), url("../fonts/ubuntu-500.woff2") format("woff2");
+}
+@font-face {
+    font-family: "Ubuntu"; font-style: normal; font-weight: 700; font-display: swap;
+    src: local("Ubuntu Bold"), local("Ubuntu-Bold"), url("../fonts/ubuntu-700.woff2") format("woff2");
+}
+@font-face {
+    font-family: "Ubuntu"; font-style: italic; font-weight: 400; font-display: swap;
+    src: local("Ubuntu Italic"), local("Ubuntu-Italic"), url("../fonts/ubuntu-400-italic.woff2") format("woff2");
+}

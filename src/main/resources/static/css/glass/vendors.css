@@ -1,0 +1,42 @@
+/* ==========================================================================
+   Topaz · Liquid Glass · 4/4 VENDORS
+   Re-skins third-party widgets (flatpickr, Alpine x-collapse hosts, AOS).
+   ========================================================================== */
+
+/* flatpickr calendar -> glass popover */
+.flatpickr-calendar {
+    background: var(--glass-bg-strong) !important;
+    -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+    border: 1px solid var(--glass-border) !important;
+    border-radius: var(--r-lg) !important;
+    box-shadow: var(--glass-shadow-lg), inset 0 1px 0 var(--glass-highlight) !important;
+    color: var(--text-primary);
+}
+.flatpickr-calendar:before, .flatpickr-calendar:after { display: none; }   /* drop the arrow */
+.flatpickr-months .flatpickr-month, .flatpickr-current-month, .flatpickr-weekday,
+.flatpickr-current-month input.cur-year, .flatpickr-current-month .flatpickr-monthDropdown-months,
+span.flatpickr-weekday { color: var(--text-primary) !important; background: transparent !important; fill: var(--text-primary); }
+.flatpickr-months .flatpickr-prev-month svg, .flatpickr-months .flatpickr-next-month svg { fill: var(--text-primary); }
+.flatpickr-day { color: var(--text-primary); border-radius: var(--r-sm); border-color: transparent; }
+.flatpickr-day:hover { background: var(--accent-soft); border-color: transparent; }
+.flatpickr-day.today { border-color: var(--accent); }
+.flatpickr-day.selected, .flatpickr-day.startRange, .flatpickr-day.endRange {
+    background: var(--accent) !important; border-color: var(--accent) !important; color: #fff !important;
+    box-shadow: 0 4px 12px var(--accent-glow);
+}
+.flatpickr-day.prevMonthDay, .flatpickr-day.nextMonthDay, .flatpickr-day.flatpickr-disabled { color: var(--text-secondary); opacity: 0.5; }
+
+/* Date inputs used in stats_search.html */
+.date-picker {
+    background: var(--glass-input-bg) !important; color: var(--text-primary);
+    border: 1px solid var(--glass-border) !important; border-radius: var(--r-md) !important;
+}
+.date-picker:focus { outline: none; border-color: var(--accent) !important; box-shadow: 0 0 0 4px var(--accent-soft); }
+
+/* Update banner link (about.html) */
+.btn-update {
+    display: inline-block; margin-left: 0.5rem; padding: 0.3rem 0.9rem;
+    border-radius: var(--r-pill); background: var(--accent); color: #fff;
+    text-decoration: none; box-shadow: 0 6px 16px var(--accent-glow);
+}
+.btn-update:hover { background: var(--accent-strong); }

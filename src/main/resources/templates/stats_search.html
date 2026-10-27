@@ -11,145 +11,87 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Topaz</title>
     <link th:href="@{/css/output.css}" rel="stylesheet">
-    <script th:src="@{/js/tailwind.js}" defer></script>
-    <script>
-        window.tailwind = window.tailwind || {};
-        tailwind.config = {
-            darkMode: 'class'
-        }
-    </script>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <link rel="stylesheet" th:href="@{/css/aos.css}">
 
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Topaz</title>
-    <link th:href="@{/css/output.css}" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-
-    <script th:src="@{/js/tailwind.js}" defer></script>
-    <script th:src="@{/js/chart.js}" defer></script>
-    <script th:src="@{/js/flatpickr.js}" defer></script>
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
-    <link rel="stylesheet" th:href="@{/css/aos.css}">
+    <!-- Date picker: local flatpickr (sync, so the inline init below always finds it) -->
+    <script th:src="@{/js/flatpickr.js}"></script>
     <link rel="stylesheet" th:href="@{/css/flatpickr.min.css}">
 </head>
 
-<body class=" font-sans leading-normal tracking-normal flex min-h-screen">
+<body class="font-sans leading-normal tracking-normal flex min-h-screen">
+    <!-- Icon sprite -->
+    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"><symbol id="icon-bar-chart-2" viewBox="0 0 24 24"><path d="M5 21v-6"/><path d="M12 21V3"/><path d="M19 21V9"/></symbol><symbol id="icon-book-open" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></symbol><symbol id="icon-brain" viewBox="0 0 24 24"><path d="M12 18V5"/><path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/><path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/><path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/><path d="M18 18a4 4 0 0 0 2-7.464"/><path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/><path d="M6 18a4 4 0 0 1-2-7.464"/><path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/></symbol><symbol id="icon-home" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol><symbol id="icon-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol><symbol id="icon-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></symbol><symbol id="icon-refresh-cw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol></svg>
 
     <!-- Sidebar -->
-    <div
-        class="w-64 bg-background rounded-xl shadow-2xl text-textPrimary p-4 flex flex-col items-center sidebar m-4 h-[90vh]">
+<aside class="w-64 glass-sidebar text-textPrimary p-4 flex flex-col items-center sidebar m-4" aria-label="Navegación principal">
 
-
-        <!-- Logo Section -->
-        <div class="flex items-center mb-6 mt-2 flex-col">
-            <img th:src="@{/images/topaz-logo-text.svg}" alt="Logo" class="w-[120px] select-none">
-        </div>
-
-
-
-        <!-- Buttons Section -->
-        <div class="space-y-4 w-full flex flex-col items-center">
-            <!-- Dashboard -->
-            <a href="/dashboard/load" class="block w-full">
-                <button
-                    class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar rounded-md transition-colors duration-300 select-none">
-                    <i data-lucide="home" class="w-5 h-5"></i> Inicio
-                </button>
-            </a>
-
-            <!-- Journal -->
-            <a href="/journal/load" class="block w-full">
-                <button
-                    class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar rounded-md transition-colors duration-300 select-none">
-                    <i data-lucide="book-open" class="w-5 h-5"></i> Diario
-                </button>
-            </a>
-
-            <!-- Revision -->
-            <a href="/revision/load" class="block w-full">
-                <button
-                    class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar rounded-md transition-colors duration-300 select-none">
-                    <i data-lucide="refresh-cw" class="w-5 h-5"></i> Revisión
-                </button>
-            </a>
-
-            <!-- Inner Work -->
-            <a href="/innerwork/load" class="block w-full">
-                <button
-                    class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar rounded-md transition-colors duration-300 select-none">
-                    <i data-lucide="brain" class="w-5 h-5"></i> Trabajo Interno
-                </button>
-            </a>
-
-            <!-- Stats -->
-            <a href="/stats/load" class="block w-full">
-                <button
-                    class="w-full flex items-center gap-2 text-left py-2 px-4 button-accent rounded-md transition-colors duration-300 hover:button-accent select-none">
-                    <i data-lucide="bar-chart-2" class="w-5 h-5"></i> Estadísticas
-                </button>
-            </a>
-
-            <!-- Meditation -->
-            <a href="/meditacion/load" class="block w-full">
-                <button
-                    class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar rounded-md transition-colors duration-300 select-none">
-                    <i data-lucide="moon" class="w-5 h-5"></i> Meditación
-                </button>
-            </a>
-
-            <!-- About -->
-            <a href="/about" class="block w-full">
-                <button
-                    class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar rounded-md transition-colors duration-300 select-none">
-                    <i data-lucide="info" class="w-5 h-5"></i> Sobre Topaz
-                </button>
-            </a>
-        </div>
+    <div class="flex items-center mb-6 mt-2 flex-col">
+        <img th:src="@{/images/topaz-logo-text.svg}" alt="Logo" class="w-[120px] select-none">
     </div>
 
+    <nav class="space-y-2 w-full flex flex-col items-center">
+            <a th:href="@{/dashboard/load}" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-home"/></svg> Inicio
+            </a>
+            <a th:href="@{/journal/load}" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-book-open"/></svg> Diario
+            </a>
+            <a th:href="@{/revision/load}" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-refresh-cw"/></svg> Revisión
+            </a>
+            <a th:href="@{/innerwork/load}" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-brain"/></svg> Trabajo Interno
+            </a>
+            <a th:href="@{/stats/load}" class="w-full flex items-center gap-2 text-left py-2 px-4 button-accent select-none" aria-current="page">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-bar-chart-2"/></svg> Estadísticas
+            </a>
+            <a th:href="@{/meditacion/load}" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-moon"/></svg> Meditación
+            </a>
+            <a th:href="@{/about}" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-info"/></svg> Sobre Topaz
+            </a>
+    </nav>
+</aside>
 
-    <!-- Main content -->
-    <div class="main-content  flex-grow bg-background p-6  select-none">
+
+<!-- Main content -->
+    <div class="main-content flex-grow p-6 select-none">
         <main class="container mx-auto mt-6 p-4">
-            <h1 data-aos="zoom-in" class="text-3xl font-bold mb-4 text-textPrimary">Estadísticas</h1>
+            <h1 class="text-3xl font-bold mb-4 text-textPrimary">Estadísticas</h1>
 
-            <div class="bg-surface p-6 rounded-xl shadow-md" data-aos="fade-up">
-                <p class="text-lg  font-bold mb-4" style="color: #23A3BB;">Descubre el data sobre tu diario y
+            <div class="glass-card p-6">
+                <p class="text-lg font-bold mb-4 text-accent">Descubre el data sobre tu diario y
                     revisiones</p>
 
                 <form th:action="@{/stats/calculate}" th:object="${statsDateRange}" method="POST" class="space-y-4">
                     <div class="flex space-x-4">
                         <div class="w-1/2">
                             <label for="startDate" class="block text-base text-textPrimary">Fecha de Inicio</label>
-                            <input th:field="*{startDate}" type="text" name="startDate" id="startDate" required
-                                class="date-picker mt-1 block w-full p-2 border border-gray-600 rounded-lg bg-background text-textPrimary focus:ring-blue-500 focus:border-blue-500">
+                            <input th:field="*{startDate}" type="text" required
+                                class="glass-input date-picker mt-1 block w-full p-2 text-textPrimary">
                         </div>
 
                         <div class="w-1/2">
                             <label for="endDate" class="block text-base text-textPrimary">Fecha de Fin</label>
-                            <input th:field="*{endDate}" type="text" name="endDate" id="endDate" required
-                                class="date-picker mt-1 block w-full p-2 border border-gray-600 rounded-lg bg-background text-textPrimary focus:ring-blue-500 focus:border-blue-500">
+                            <input th:field="*{endDate}" type="text" required
+                                class="glass-input date-picker mt-1 block w-full p-2 text-textPrimary">
                         </div>
                     </div>
 
                     <div class="flex justify-end mt-4">
                         <button type="submit"
-                            class="button-accent  transition hover:button-secondary-bg text-textPrimary text-sm py-2 px-6 rounded-md">Calcular</button>
+                            class="button-accent transition text-textPrimary text-sm py-2 px-6 rounded-md">Calcular</button>
                     </div>
                 </form>
             </div>
 
             <script>
-                // Initialize Flatpickr for all date inputs
                 flatpickr(".date-picker", {
                     enableTime: false,
-                    weekStart: 1, // Start the week on Monday
-                    dateFormat: "d-M-Y", // Format YYYY-MM-DD
+                    weekStart: 1,
+                    dateFormat: "d-M-Y",
                     defaultDate: "1-Ene-2025",
-                    locale: "es" // Spanish locale
+                    locale: "es"
                 });
             </script>
 
@@ -157,18 +99,7 @@
     </div>
 
     <script th:src="@{/js/deleteFeature_openModal.js}" defer></script>
-    <script th:src="@{/js/aos.js}" defer></script>
     <script th:src="@{/js/alpine.js}" defer></script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            AOS.init();
-        });
-    </script>
-    <script th:src="@{/js/lucide.js}"></script>
-    <script>
-        lucide.createIcons();
-    </script>
 </body>
 
 </html>

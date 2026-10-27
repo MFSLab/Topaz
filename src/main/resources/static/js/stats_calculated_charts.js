@@ -24,13 +24,13 @@ var chartEntryCountAllTime = new Chart(ctx_EntryCountAllTime, {
         scales: {
             x: {
                 ticks: {
-                    color: 'white' // X-axis labels color
+                    color: Chart.defaults.color // X-axis labels color
                 }
             },
             y: {
                 beginAtZero: true,
                 ticks: {
-                    color: 'white' // Y-axis labels color
+                    color: Chart.defaults.color // Y-axis labels color
                 }
             }
         },
@@ -39,13 +39,13 @@ var chartEntryCountAllTime = new Chart(ctx_EntryCountAllTime, {
             legend: {
                 position: 'top',
                 labels: {
-                    color: 'white' // Legend text color
+                    color: Chart.defaults.color // Legend text color
                 }
             },
             title: {
                 display: false,
                 text: 'Entradas totales',
-                color: 'white' // Title color (if enabled)
+                color: Chart.defaults.color // Title color (if enabled)
             }
         }
     }
@@ -74,13 +74,13 @@ var chartEntryCountWeek = new Chart(ctx_EntryCountWeek, {
         scales: {
             x: {
                 ticks: {
-                    color: 'white' // X-axis labels color
+                    color: Chart.defaults.color // X-axis labels color
                 }
             },
             y: {
                 beginAtZero: true,
                 ticks: {
-                    color: 'white' // Y-axis labels color
+                    color: Chart.defaults.color // Y-axis labels color
                 }
             }
         },
@@ -89,13 +89,13 @@ var chartEntryCountWeek = new Chart(ctx_EntryCountWeek, {
             legend: {
                 position: 'top',
                 labels: {
-                    color: 'white' // Legend text color
+                    color: Chart.defaults.color // Legend text color
                 }
             },
             title: {
                 display: false,
                 text: 'Entradas totales',
-                color: 'white' // Title color (if enabled)
+                color: Chart.defaults.color // Title color (if enabled)
             }
         }
     }
@@ -124,13 +124,13 @@ var chartEntryCountMonth = new Chart(ctx_EntryCountMonth, {
         scales: {
             x: {
                 ticks: {
-                    color: 'white' // X-axis labels color
+                    color: Chart.defaults.color // X-axis labels color
                 }
             },
             y: {
                 beginAtZero: true,
                 ticks: {
-                    color: 'white' // Y-axis labels color
+                    color: Chart.defaults.color // Y-axis labels color
                 }
             }
         },
@@ -139,13 +139,13 @@ var chartEntryCountMonth = new Chart(ctx_EntryCountMonth, {
             legend: {
                 position: 'top',
                 labels: {
-                    color: 'white' // Legend text color
+                    color: Chart.defaults.color // Legend text color
                 }
             },
             title: {
                 display: false,
                 text: 'Entradas totales',
-                color: 'white' // Title color (if enabled)
+                color: Chart.defaults.color // Title color (if enabled)
             }
         }
     }
@@ -174,13 +174,13 @@ var chartEntryCountDateRange = new Chart(ctx_EntryCountDateRange, {
         scales: {
             x: {
                 ticks: {
-                    color: 'white' // X-axis labels color
+                    color: Chart.defaults.color // X-axis labels color
                 }
             },
             y: {
                 beginAtZero: true,
                 ticks: {
-                    color: 'white' // Y-axis labels color
+                    color: Chart.defaults.color // Y-axis labels color
                 }
             }
         },
@@ -189,13 +189,13 @@ var chartEntryCountDateRange = new Chart(ctx_EntryCountDateRange, {
             legend: {
                 position: 'top',
                 labels: {
-                    color: 'white' // Legend text color
+                    color: Chart.defaults.color // Legend text color
                 }
             },
             title: {
                 display: false,
                 text: 'Entradas totales',
-                color: 'white' // Title color (if enabled)
+                color: Chart.defaults.color // Title color (if enabled)
             }
         }
     }
@@ -237,25 +237,25 @@ var chartActivityPerDayJournalAllTime = new Chart(ctx_ActivityPerDayJournalAllTi
             y: {
                 beginAtZero: true,
                 ticks: {
-                    color: 'white' // Set Y-axis ticks color to white
+                    color: Chart.defaults.color // Set Y-axis ticks color to white
                 }
             },
             x: {
                 ticks: {
-                    color: 'white' // Set X-axis ticks color to white
+                    color: Chart.defaults.color // Set X-axis ticks color to white
                 }
             }
         },
         plugins: {
             legend: {
                 labels: {
-                    color: 'white' // Set legend text color to white
+                    color: Chart.defaults.color // Set legend text color to white
                 }
             }
         },
         elements: {
             bar: {
-                borderColor: 'white' // Set bar border color to white
+                borderColor: 'rgba(255, 255, 255, 0.55)' // Set bar border color to white
             }
         }
     }
@@ -297,25 +297,25 @@ var chartActivityPerDayRevisionAllTime = new Chart(ctx_ActivityPerDayRevisionAll
             y: {
                 beginAtZero: true,
                 ticks: {
-                    color: 'white' // Set Y-axis ticks color to white
+                    color: Chart.defaults.color // Set Y-axis ticks color to white
                 }
             },
             x: {
                 ticks: {
-                    color: 'white' // Set X-axis ticks color to white
+                    color: Chart.defaults.color // Set X-axis ticks color to white
                 }
             }
         },
         plugins: {
             legend: {
                 labels: {
-                    color: 'white' // Set legend text color to white
+                    color: Chart.defaults.color // Set legend text color to white
                 }
             }
         },
         elements: {
             bar: {
-                borderColor: 'white' // Set bar border color to white
+                borderColor: 'rgba(255, 255, 255, 0.55)' // Set bar border color to white
             }
         }
     }
@@ -357,25 +357,25 @@ var chartActivityPerDayJournalWeek = new Chart(ctx_ActivityPerDayJournalWeek, {
             y: {
                 beginAtZero: true,
                 ticks: {
-                    color: 'white' // Set Y-axis ticks color to white
+                    color: Chart.defaults.color // Set Y-axis ticks color to white
                 }
             },
             x: {
                 ticks: {
-                    color: 'white' // Set X-axis ticks color to white
+                    color: Chart.defaults.color // Set X-axis ticks color to white
                 }
             }
         },
         plugins: {
             legend: {
                 labels: {
-                    color: 'white' // Set legend text color to white
+                    color: Chart.defaults.color // Set legend text color to white
                 }
             }
         },
         elements: {
             bar: {
-                borderColor: 'white' // Set bar border color to white
+                borderColor: 'rgba(255, 255, 255, 0.55)' // Set bar border color to white
             }
         }
     }
@@ -417,25 +417,25 @@ var chartActivityPerDayRevisionDateRange = new Chart(ctx_ActivityPerDayRevisionW
             y: {
                 beginAtZero: true,
                 ticks: {
-                    color: 'white' // Set Y-axis ticks color to white
+                    color: Chart.defaults.color // Set Y-axis ticks color to white
                 }
             },
             x: {
                 ticks: {
-                    color: 'white' // Set X-axis ticks color to white
+                    color: Chart.defaults.color // Set X-axis ticks color to white
                 }
             }
         },
         plugins: {
             legend: {
                 labels: {
-                    color: 'white' // Set legend text color to white
+                    color: Chart.defaults.color // Set legend text color to white
                 }
             }
         },
         elements: {
             bar: {
-                borderColor: 'white' // Set bar border color to white
+                borderColor: 'rgba(255, 255, 255, 0.55)' // Set bar border color to white
             }
         }
     }
@@ -477,25 +477,25 @@ var chartActivityPerDayJournalMonth = new Chart(ctx_ActivityPerDayJournalMonth, 
             y: {
                 beginAtZero: true,
                 ticks: {
-                    color: 'white' // Set Y-axis ticks color to white
+                    color: Chart.defaults.color // Set Y-axis ticks color to white
                 }
             },
             x: {
                 ticks: {
-                    color: 'white' // Set X-axis ticks color to white
+                    color: Chart.defaults.color // Set X-axis ticks color to white
                 }
             }
         },
         plugins: {
             legend: {
                 labels: {
-                    color: 'white' // Set legend text color to white
+                    color: Chart.defaults.color // Set legend text color to white
                 }
             }
         },
         elements: {
             bar: {
-                borderColor: 'white' // Set bar border color to white
+                borderColor: 'rgba(255, 255, 255, 0.55)' // Set bar border color to white
             }
         }
     }
@@ -537,25 +537,25 @@ var chartActivityPerDayRevisionDateRange = new Chart(ctx_ActivityPerDayRevisionM
             y: {
                 beginAtZero: true,
                 ticks: {
-                    color: 'white' // Set Y-axis ticks color to white
+                    color: Chart.defaults.color // Set Y-axis ticks color to white
                 }
             },
             x: {
                 ticks: {
-                    color: 'white' // Set X-axis ticks color to white
+                    color: Chart.defaults.color // Set X-axis ticks color to white
                 }
             }
         },
         plugins: {
             legend: {
                 labels: {
-                    color: 'white' // Set legend text color to white
+                    color: Chart.defaults.color // Set legend text color to white
                 }
             }
         },
         elements: {
             bar: {
-                borderColor: 'white' // Set bar border color to white
+                borderColor: 'rgba(255, 255, 255, 0.55)' // Set bar border color to white
             }
         }
     }
@@ -598,25 +598,25 @@ var chartActivityPerDayJournalDateRange = new Chart(ctx_ActivityPerDayJournalDat
             y: {
                 beginAtZero: true,
                 ticks: {
-                    color: 'white' // Set Y-axis ticks color to white
+                    color: Chart.defaults.color // Set Y-axis ticks color to white
                 }
             },
             x: {
                 ticks: {
-                    color: 'white' // Set X-axis ticks color to white
+                    color: Chart.defaults.color // Set X-axis ticks color to white
                 }
             }
         },
         plugins: {
             legend: {
                 labels: {
-                    color: 'white' // Set legend text color to white
+                    color: Chart.defaults.color // Set legend text color to white
                 }
             }
         },
         elements: {
             bar: {
-                borderColor: 'white' // Set bar border color to white
+                borderColor: 'rgba(255, 255, 255, 0.55)' // Set bar border color to white
             }
         }
     }
@@ -658,25 +658,25 @@ var chartActivityPerDayRevisionDateRange = new Chart(chartActivityPerDayRevision
             y: {
                 beginAtZero: true,
                 ticks: {
-                    color: 'white' // Set Y-axis ticks color to white
+                    color: Chart.defaults.color // Set Y-axis ticks color to white
                 }
             },
             x: {
                 ticks: {
-                    color: 'white' // Set X-axis ticks color to white
+                    color: Chart.defaults.color // Set X-axis ticks color to white
                 }
             }
         },
         plugins: {
             legend: {
                 labels: {
-                    color: 'white' // Set legend text color to white
+                    color: Chart.defaults.color // Set legend text color to white
                 }
             }
         },
         elements: {
             bar: {
-                borderColor: 'white' // Set bar border color to white
+                borderColor: 'rgba(255, 255, 255, 0.55)' // Set bar border color to white
             }
         }
     }
@@ -721,7 +721,7 @@ const emotionFrequencyPieChartAllTime = new Chart(ctx_emotionFrequencyPieChartAl
                 '#D32F2F', '#824633', '#4CAF50', '#9E9E9E', '#4dd1e3',
                 '#146b11', '#330505', '#89d134'
             ],
-            borderColor: '#fff',
+            borderColor: 'rgba(255, 255, 255, 0.55)',
             borderWidth: 1
         }]
     },
@@ -781,7 +781,7 @@ const emotionFrequencyPieChartDateRange = new Chart(ctx_emotionFrequencyPieChart
                 '#D32F2F', '#824633', '#4CAF50', '#9E9E9E', '#4dd1e3',
                 '#146b11', '#330505', '#89d134'
             ],
-            borderColor: '#fff',
+            borderColor: 'rgba(255, 255, 255, 0.55)',
             borderWidth: 1
         }]
     },
@@ -842,7 +842,7 @@ const emotionFrequencyPieChartLastWeek = new Chart(ctx_emotionFrequencyPieChartL
                 '#D32F2F', '#824633', '#4CAF50', '#9E9E9E', '#4dd1e3',
                 '#146b11', '#330505', '#89d134'
             ],
-            borderColor: '#fff',
+            borderColor: 'rgba(255, 255, 255, 0.55)',
             borderWidth: 1
         }]
     },
@@ -903,7 +903,7 @@ const emotionFrequencyPieChartLastMonth = new Chart(ctx_emotionFrequencyPieChart
                 '#D32F2F', '#824633', '#4CAF50', '#9E9E9E', '#4dd1e3',
                 '#146b11', '#330505', '#89d134'
             ],
-            borderColor: '#fff',
+            borderColor: 'rgba(255, 255, 255, 0.55)',
             borderWidth: 1
         }]
     },
@@ -961,12 +961,12 @@ var config = {
                 beginAtZero: true,
                 max: 10, // Set max value for Y axis
                 ticks: {
-                    color: 'white', // Make Y-axis labels white
+                    color: Chart.defaults.color, // Make Y-axis labels white
                 }
             },
             x: {
                 ticks: {
-                    color: 'white', // Make X-axis labels white
+                    color: Chart.defaults.color, // Make X-axis labels white
                 }
             }
         },
@@ -1022,12 +1022,12 @@ var config = {
                 beginAtZero: true,
                 max: 10, // Set max value for Y axis
                 ticks: {
-                    color: 'white', // Make Y-axis labels white
+                    color: Chart.defaults.color, // Make Y-axis labels white
                 }
             },
             x: {
                 ticks: {
-                    color: 'white', // Make X-axis labels white
+                    color: Chart.defaults.color, // Make X-axis labels white
                 }
             }
         },
@@ -1083,12 +1083,12 @@ var config = {
                 beginAtZero: true,
                 max: 10, // Set max value for Y axis
                 ticks: {
-                    color: 'white', // Make Y-axis labels white
+                    color: Chart.defaults.color, // Make Y-axis labels white
                 }
             },
             x: {
                 ticks: {
-                    color: 'white', // Make X-axis labels white
+                    color: Chart.defaults.color, // Make X-axis labels white
                 }
             }
         },
@@ -1144,12 +1144,12 @@ var config = {
                 beginAtZero: true,
                 max: 10, // Set max value for Y axis
                 ticks: {
-                    color: 'white', // Make Y-axis labels white
+                    color: Chart.defaults.color, // Make Y-axis labels white
                 }
             },
             x: {
                 ticks: {
-                    color: 'white', // Make X-axis labels white
+                    color: Chart.defaults.color, // Make X-axis labels white
                 }
             }
         },

@@ -1,0 +1,101 @@
+/* ==========================================================================
+   Topaz · Liquid Glass · 1/4 TOKENS
+   Single source of truth for colour, blur, radius, shadow and type.
+   Light = :root   |   Dark = html.dark (toggled by theme.js)
+   ========================================================================== */
+:root {
+    /* Typography: Ubuntu everywhere (see base.css for the enforcement rule) */
+    --font-ui: "Ubuntu", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+    /* Brand accent (Topaz teal) */
+    --accent:        #23A3BB;
+    --accent-strong: #1A8F9A;
+    --accent-soft:   rgba(35, 163, 187, 0.16);
+    --accent-glow:   rgba(35, 163, 187, 0.45);
+
+    /* Text */
+    --text-primary:   #1C1C1E;
+    --text-secondary: #48484A;
+    --text-accent:    #1A8F9A;
+    --text-on-accent: #FFFFFF;
+
+    /* Danger / success */
+    --danger:  #FF3B30;
+    --success: #34C759;
+
+    /* Wallpaper behind the glass (gives the blur something to refract) */
+    --wall-base: #E9EEF3;
+    --wall-a: rgba(35, 163, 187, 0.38);
+    --wall-b: rgba(120, 130, 255, 0.28);
+    --wall-c: rgba(255, 170, 120, 0.26);
+
+    /* Glass surfaces */
+    --glass-bg:        linear-gradient(120deg, rgba(255,255,255,0.30) 0%, rgba(255,255,255,0) 38%),
+                       linear-gradient(145deg, rgba(255,255,255,0.68), rgba(255,255,255,0.42));   /* sheen folded in: no pseudo-elements */
+    --glass-bg-strong: linear-gradient(145deg, rgba(255,255,255,0.78), rgba(255,255,255,0.52));
+    --glass-inset-bg:  rgba(255, 255, 255, 0.38);
+    --glass-input-bg:  rgba(255, 255, 255, 0.55);
+    --glass-border:    rgba(255, 255, 255, 0.70);
+    --glass-edge:      rgba(0, 0, 0, 0.06);          /* outer hairline for contrast on light */
+    --glass-highlight: rgba(255, 255, 255, 0.95);    /* specular top edge */
+    --glass-shadow:    0 8px 24px rgba(31, 45, 61, 0.10);
+    --glass-shadow-lg: 0 16px 40px rgba(31, 45, 61, 0.16);
+
+    /* PERF: backdrop-filter is OFF for panes. The wallpaper behind them is a static smooth
+       gradient, so blurring it is visually identical to not blurring it, but costs a GPU
+       pass per element on every scroll/animation frame. Real blur is kept only where content
+       genuinely passes behind (modal overlay, date-picker popover). */
+    --blur:      none;
+    --blur-soft: none;
+
+    /* Radii */
+    --r-sm: 12px;
+    --r-md: 18px;
+    --r-lg: 24px;
+    --r-xl: 30px;
+    --r-pill: 999px;
+
+    /* Layout */
+    --sidebar-w: 16rem;
+    --gap: 1rem;
+
+    /* Motion */
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    --t: 0.28s;
+
+    /* Chart.js reads these via getComputedStyle (see js/chart-theme.js) */
+    --chart-text: #3A3A3C;
+    --chart-grid: rgba(60, 60, 67, 0.14);
+}
+
+html.dark {
+    --accent:        #34BDD7;
+    --accent-strong: #23A3BB;
+    --accent-soft:   rgba(52, 189, 215, 0.18);
+    --accent-glow:   rgba(52, 189, 215, 0.5);
+
+    --text-primary:   #F2F2F7;
+    --text-secondary: #B4B4BB;
+    --text-accent:    #5CD0E6;
+
+    --danger: #FF6961;
+
+    --wall-base: #0B0D12;
+    --wall-a: rgba(35, 163, 187, 0.30);
+    --wall-b: rgba(110, 90, 255, 0.24);
+    --wall-c: rgba(255, 120, 90, 0.14);
+
+    --glass-bg:        linear-gradient(120deg, rgba(255,255,255,0.07) 0%, rgba(255,255,255,0) 38%),
+                       linear-gradient(145deg, rgba(60,64,78,0.64), rgba(28,30,38,0.52));
+    --glass-bg-strong: linear-gradient(145deg, rgba(70,74,90,0.68), rgba(34,36,46,0.52));
+    --glass-inset-bg:  rgba(255, 255, 255, 0.06);
+    --glass-input-bg:  rgba(255, 255, 255, 0.07);
+    --glass-border:    rgba(255, 255, 255, 0.14);
+    --glass-edge:      rgba(0, 0, 0, 0.35);
+    --glass-highlight: rgba(255, 255, 255, 0.28);
+    --glass-shadow:    0 10px 28px rgba(0, 0, 0, 0.40);
+    --glass-shadow-lg: 0 18px 44px rgba(0, 0, 0, 0.50);
+
+    --chart-text: #D1D1D6;
+    --chart-grid: rgba(255, 255, 255, 0.12);
+}
