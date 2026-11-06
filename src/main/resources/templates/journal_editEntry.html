@@ -12,14 +12,100 @@
     <title>Topaz</title>
     <link th:href="@{/css/output.css}" rel="stylesheet">
 
-    <script>
-        window.onload = function () {
-            const saveButton = document.getElementById('saveButton');
-            const modal = document.getElementById('saveModal');
-            const closeModal = document.getElementById('closeModal');
-            const form = document.getElementById('journalForm');
-        };
-    </script>
+    <style>
+/* ==========================================================================
+   Chat composer (journal add / edit pages), iMessage-style
+   Questions = grey bubbles on the left, answers = full-width tinted bubbles on the right.
+   Bubbles are opaque on purpose (like iMessage) so the tail can share the exact fill.
+   No backdrop-filter here (see PERF note in tokens.css).
+   ========================================================================== */
+.chat-thread {
+    --bub-in:       #FBE4D6;                    /* received (questions): warm peach, from the wallpaper */
+    --bub-in-text:  #4A2A18;
+    --bub-out:      #14808F;                    /* sent (answers): deep Topaz teal, white text = 4.6:1 */
+    --bub-out-text: #FFFFFF;
+    display: flex;
+    flex-direction: column;
+    padding: 0.25rem 0.75rem 0.5rem;     /* room for the tails */
+}
+html.dark .chat-thread { --bub-in: #5A4036; --bub-in-text: #FBE4D6; }
+
+.chat-bubble {
+    position: relative;
+    isolation: isolate;                  /* lets the tail sit behind the text */
+    box-sizing: border-box;
+    border-radius: var(--r-md);
+    color: var(--text-primary);
+}
+
+/* Tail: same fill as the bubble, shaped with clip-path */
+.chat-bubble::before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    bottom: 0;
+    width: 20px;
+    height: 18px;
+    background: inherit;
+    clip-path: path('M0 0H12C12 7 14.5 13 20 18C16 17.5 13.5 16.5 12 18H0Z');
+}
+
+/* Question (received, left) */
+.chat-bubble--bot {
+    align-self: flex-start;
+    max-width: 70%;
+    margin-top: 1.5rem;
+    padding: 0.6rem 1rem;
+    background: var(--bub-in);
+    color: var(--bub-in-text);
+    border-bottom-left-radius: 0;
+}
+.chat-bubble--bot::before { left: -8px; transform: scaleX(-1); }
+.chat-bubble--bot + .chat-bubble--bot { margin-top: 0.15rem; }
+/* Only the last bubble of a group gets a tail */
+.chat-bubble--bot:has(+ .chat-bubble--bot) { border-bottom-left-radius: var(--r-md); }
+.chat-bubble--bot:has(+ .chat-bubble--bot)::before { display: none; }
+.chat-thread > :first-child { margin-top: 0; }
+
+.chat-question { display: block; line-height: 1.4; cursor: pointer; }
+
+/* Answer (sent, right): full width, the field is the bubble */
+.chat-bubble--me {
+    align-self: stretch;
+    margin-top: 0.35rem;
+    background: var(--bub-out);
+    color: var(--bub-out-text);
+    border-bottom-right-radius: 0;
+    transition: box-shadow 0.2s var(--ease);
+}
+.chat-bubble--me::before { right: -8px; }
+.chat-bubble--me:focus-within { box-shadow: 0 0 0 2px var(--accent), 0 0 0 5px var(--accent-soft); }
+.chat-bubble--me ::selection { background: rgba(255, 255, 255, 0.35); }
+
+.chat-input {
+    display: block;
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 0;           /* one line by default; grows with the text */
+    padding: 0.7rem 1rem;
+    background: transparent;
+    border: 0;
+    border-radius: inherit;
+    box-shadow: none;
+    color: inherit;
+    caret-color: var(--bub-out-text);
+    font-size: 1rem;
+    line-height: 1.5;
+    resize: none;            /* auto-grows instead (see inline script) */
+    overflow: hidden;
+}
+.chat-input:focus, .chat-input:focus-visible { outline: none; }   /* ring is drawn by the bubble */
+
+/* Title: single line, a little heavier */
+.chat-bubble--title .chat-input { min-height: 0; font-size: 1.25rem; font-weight: 700; }
+
+.chat-actions { align-self: flex-end; margin-top: 1.4rem; }
+    </style>
 </head>
 
 <body class="font-sans leading-normal tracking-normal flex min-h-screen">
@@ -61,145 +147,188 @@
 </aside>
 
 
-<!-- Main content -->
-<div class="flex-grow p-6 main-content">
-    <main class="container mx-auto mt-6 p-4">
-        <h1 class="text-3xl font-bold mb-4 text-textPrimary">Diario</h1>
+    <!-- Main content -->
+    <div class="flex-grow p-6 main-content">
+        <main class="container mx-auto mt-6 p-4">
+            <h1 class="text-3xl font-bold mb-4 text-textPrimary">Diario</h1>
 
-        <div class="glass-card p-6 flex flex-col justify-between">
-            <div class="mb-4 relative flex justify-center items-center">
-                <a href="/journal/load"
-                   class="absolute left-0 text-textPrimary button-accent transition-colors duration-300 py-2 px-3 rounded-md select-none flex items-center justify-center">
-                    <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-arrow-big-left"/></svg>
-                </a>
-                <h2 class="text-xl text-accent font-bold select-none">
-                    Editar Entrada al Diario
-                </h2>
-            </div>
-
-
-            <!-- Form to handle the journal entry -->
-            <form id="journalForm" action="#" method="POST"
-                  th:action="@{/journal/updateEntry/{id}(id=${journalEntry.id})}" th:object="${journalEntry}">
-
-                <!-- hidden date -->
-                <input type="text" name="date" id="date" class="hidden" th:value="${journalEntry.date}"/>
-
-                <!-- Title -->
-                <input type="text" name="title" id="title"
-                       class="glass-input text-lg font-semibold mb-4 w-full text-textPrimary p-3"
-                       placeholder="Título" th:value="${journalEntry.title}"/>
-
-                <!-- General -->
-                <label for="contentGeneral" class="block text-lg font-medium text-accent mb-2">General</label>
-                <textarea name="contentGeneral" id="contentGeneral"
-                          class="glass-input w-full h-[150px] resize-y p-3 text-textPrimary mb-4 text-base"
-                          th:text="${journalEntry.contentGeneral}" placeholder="¿Qué has hecho hoy?"></textarea>
-
-                <!-- Errores Cometidos -->
-                <label for="contentErroresCometidos" class="block text-lg font-medium text-accent mb-2">Errores
-                    Cometidos</label>
-                <textarea name="contentErroresCometidos" id="contentErroresCometidos"
-                          class="glass-input w-full h-[150px] resize-y p-3 text-textPrimary mb-6 text-base"
-                          th:text="${journalEntry.contentErroresCometidos}"
-                          placeholder="Hoy he hecho mal..."></textarea>
-
-                <!-- Salud Física -->
-                <label for="contentSaludFisica" class="block text-lg font-medium text-accent mb-2">Salud
-                    Física</label>
-                <textarea name="contentSaludFisica" id="contentSaludFisica"
-                          class="glass-input w-full h-[150px] resize-y p-3 text-textPrimary mb-4 text-base"
-                          th:text="${journalEntry.contentSaludFisica}"
-                          placeholder="Hoy he ido al gimnasio..."></textarea>
-
-                <!-- Salud Mental -->
-                <label for="contentSaludMental" class="block text-lg font-medium text-accent mb-2">Salud
-                    Mental</label>
-                <textarea name="contentSaludMental" id="contentSaludMental"
-                          class="glass-input w-full h-[150px] resize-y p-3 text-textPrimary mb-4 text-base"
-                          th:text="${journalEntry.contentSaludMental}" placeholder="Hoy he meditado..."></textarea>
-
-                <!-- Actividad Profesional -->
-                <label for="contentCarreraProfesional" class="block text-lg font-medium text-accent mb-2">Actividad
-                    Profesional</label>
-                <textarea name="contentCarreraProfesional" id="contentCarreraProfesional"
-                          class="glass-input w-full h-[150px] resize-y p-3 text-textPrimary mb-4 text-base"
-                          th:text="${journalEntry.contentCarreraProfesional}"
-                          placeholder="Hoy he trabajado en..."></textarea>
-
-                <!-- Salud Financiera -->
-                <label for="contentEstabilidadFinanciera"
-                       class="block text-lg font-medium text-accent mb-2">Salud Financiera</label>
-                <textarea name="contentEstabilidadFinanciera" id="contentEstabilidadFinanciera"
-                          class="glass-input w-full h-[150px] resize-y p-3 text-textPrimary mb-4 text-base"
-                          th:text="${journalEntry.contentEstabilidadFinanciera}"
-                          placeholder="Hoy he ganado...Hoy he gastado..."></textarea>
-
-                <!-- Crecimiento Personal -->
-                <label for="contentCrecimientoPersonal"
-                       class="block text-lg font-medium text-accent mb-2">Crecimiento Personal</label>
-                <textarea name="contentCrecimientoPersonal" id="contentCrecimientoPersonal"
-                          class="glass-input w-full h-[150px] resize-y p-3 text-textPrimary mb-4 text-base"
-                          th:text="${journalEntry.contentCrecimientoPersonal}" placeholder="Hoy he leído..."></textarea>
-
-                <!-- Relaciones Sociales -->
-                <label for="contentRelacionesSociales" class="block text-lg font-medium text-accent mb-2">Relaciones
-                    Sociales</label>
-                <textarea name="contentRelacionesSociales" id="contentRelacionesSociales"
-                          class="glass-input w-full h-[150px] resize-y p-3 text-textPrimary mb-4 text-base"
-                          th:text="${journalEntry.contentRelacionesSociales}"
-                          placeholder="Hoy he pasado tiempo con mi familia y amigos..."></textarea>
-
-                <!-- Pasatiempos Creativos -->
-                <label for="contentPasatiemposCreatividad"
-                       class="block text-lg font-medium text-accent mb-2">Pasatiempos Creativos</label>
-                <textarea name="contentPasatiemposCreatividad" id="contentPasatiemposCreatividad"
-                          class="glass-input w-full h-[150px] resize-y p-3 text-textPrimary mb-4 text-base"
-                          th:text="${journalEntry.contentPasatiemposCreatividad}"
-                          placeholder="Hoy he hecho música...Hoy he dibujado..."></textarea>
-
-                <!-- Recreación Ocio -->
-                <label for="contentRecreacionDiversion"
-                       class="block text-lg font-medium text-accent mb-2">Ocio</label>
-                <textarea name="contentRecreacionDiversion" id="contentRecreacionDiversion"
-                          class="glass-input w-full h-[150px] resize-y p-3 text-textPrimary mb-4 text-base"
-                          th:text="${journalEntry.contentRecreacionDiversion}"
-                          placeholder="Hoy he jugado a..."></textarea>
-
-
-                <!-- Espiritualidad y Propósito -->
-                <label for="contentEspiritualidadProposito"
-                       class="block text-lg font-medium text-accent mb-2">Espiritualidad y Propósito</label>
-                <textarea name="contentEspiritualidadProposito" id="contentEspiritualidadProposito"
-                          class="glass-input w-full h-[150px] resize-y p-3 text-textPrimary mb-4 text-base"
-                          th:text="${journalEntry.contentEspiritualidadProposito}"
-                          placeholder="Hoy he reflexionado sobre..."></textarea>
-
-                <!-- Contribución y Legado -->
-                <label for="contentContribucionLegado"
-                       class="block text-lg font-medium text-accent mb-2">Contribución y Legado</label>
-                <textarea name="contentContribucionLegado" id="contentContribucionLegado"
-                          class="glass-input w-full h-[150px] resize-y p-3 text-textPrimary mb-4 text-base"
-                          th:text="${journalEntry.contentContribucionLegado}"
-                          placeholder="Hoy he ayudado a...Hoy he enseñado a..."></textarea>
-
-                <!-- Save Button -->
-                <div class="mt-4 flex">
-                    <button type="submit" id="saveButton"
-                            class="ml-auto text-textPrimary button-accent transition-colors duration-300 py-2 px-3 rounded-md select-none flex items-center justify-center">
-                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-save"/></svg>
-                        &nbsp;&nbsp;Guardar
-                    </button>
+            <div class="glass-card p-6 flex flex-col justify-between">
+                <div class="mb-4 relative flex justify-center items-center">
+                    <a href="/journal/load"
+                       class="absolute left-0 text-textPrimary button-accent transition-colors duration-300 py-2 px-3 rounded-md select-none flex items-center justify-center">
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-arrow-big-left"/></svg>
+                    </a>
+                    <h2 class="text-xl text-accent font-bold select-none">
+                        Editar Entrada al Diario
+                    </h2>
                 </div>
 
-            </form>
+                <!-- Chat-style form: same field names and bindings as before -->
+                <form id="journalForm" action="#" method="POST"
+                      th:action="@{/journal/updateEntry/{id}(id=${journalEntry.id})}" th:object="${journalEntry}">
+                    <!-- hidden date -->
+                    <input type="text" name="date" id="date" class="hidden" th:value="${journalEntry.date}"/>
 
-        </div>
-    </main>
-</div>
+                    <div class="chat-thread">
+                        <div class="chat-bubble chat-bubble--bot"><p>Aquí tienes tu entrada. Cambia lo que quieras.</p></div>
+
+                        <div class="chat-bubble chat-bubble--bot"><label for="title" class="chat-question">Para empezar, ¿qué título le pondrías a hoy?</label></div>
+
+                        <div class="chat-bubble chat-bubble--me chat-bubble--title">
+                            <input type="text" name="title" id="title" class="chat-input"
+                                   th:value="${journalEntry.title}"/>
+                        </div>
+
+                        <div class="chat-bubble chat-bubble--bot"><label for="contentGeneral" class="chat-question">Escribe un resumen general de tu día.</label></div>
+
+                        <div class="chat-bubble chat-bubble--bot"><p id="hint-contentGeneral">Lo que ha pasado hoy, a grandes rasgos.</p></div>
+
+                        <div class="chat-bubble chat-bubble--me">
+                            <textarea name="contentGeneral" id="contentGeneral" class="chat-input" rows="1"
+                                      aria-describedby="hint-contentGeneral"
+                                      th:text="${journalEntry.contentGeneral}"></textarea>
+                        </div>
+
+                        <div class="chat-bubble chat-bubble--bot"><label for="contentErroresCometidos" class="chat-question">¿Qué errores has cometido hoy?</label></div>
+
+                        <div class="chat-bubble chat-bubble--bot"><p id="hint-contentErroresCometidos">Cuéntame también el aprendizaje que te llevas de ellos.</p></div>
+
+                        <div class="chat-bubble chat-bubble--me">
+                            <textarea name="contentErroresCometidos" id="contentErroresCometidos" class="chat-input" rows="1"
+                                      aria-describedby="hint-contentErroresCometidos"
+                                      th:text="${journalEntry.contentErroresCometidos}"></textarea>
+                        </div>
+
+                        <div class="chat-bubble chat-bubble--bot"><label for="contentSaludFisica" class="chat-question">¿Cómo ha ido tu salud física?</label></div>
+
+                        <div class="chat-bubble chat-bubble--bot"><p id="hint-contentSaludFisica">Sueño, nutrición, deporte, consumo de tóxicos, etc.</p></div>
+
+                        <div class="chat-bubble chat-bubble--me">
+                            <textarea name="contentSaludFisica" id="contentSaludFisica" class="chat-input" rows="1"
+                                      aria-describedby="hint-contentSaludFisica"
+                                      th:text="${journalEntry.contentSaludFisica}"></textarea>
+                        </div>
+
+                        <div class="chat-bubble chat-bubble--bot"><label for="contentSaludMental" class="chat-question">¿Qué has hecho hoy por tu salud mental?</label></div>
+
+                        <div class="chat-bubble chat-bubble--bot"><p id="hint-contentSaludMental">Ir a terapia, meditar, limitar el uso de pantallas, etc.</p></div>
+
+                        <div class="chat-bubble chat-bubble--me">
+                            <textarea name="contentSaludMental" id="contentSaludMental" class="chat-input" rows="1"
+                                      aria-describedby="hint-contentSaludMental"
+                                      th:text="${journalEntry.contentSaludMental}"></textarea>
+                        </div>
+
+                        <div class="chat-bubble chat-bubble--bot"><label for="contentCarreraProfesional" class="chat-question">¿En qué has trabajado hoy?</label></div>
+
+                        <div class="chat-bubble chat-bubble--bot"><p id="hint-contentCarreraProfesional">Lo que has hecho por tu trayectoria profesional.</p></div>
+
+                        <div class="chat-bubble chat-bubble--me">
+                            <textarea name="contentCarreraProfesional" id="contentCarreraProfesional" class="chat-input" rows="1"
+                                      aria-describedby="hint-contentCarreraProfesional"
+                                      th:text="${journalEntry.contentCarreraProfesional}"></textarea>
+                        </div>
+
+                        <div class="chat-bubble chat-bubble--bot"><label for="contentEstabilidadFinanciera" class="chat-question">¿Cómo ha ido tu día en lo financiero?</label></div>
+
+                        <div class="chat-bubble chat-bubble--bot"><p id="hint-contentEstabilidadFinanciera">Ingresos, gastos, ahorros, inversiones, etc.</p></div>
+
+                        <div class="chat-bubble chat-bubble--me">
+                            <textarea name="contentEstabilidadFinanciera" id="contentEstabilidadFinanciera" class="chat-input" rows="1"
+                                      aria-describedby="hint-contentEstabilidadFinanciera"
+                                      th:text="${journalEntry.contentEstabilidadFinanciera}"></textarea>
+                        </div>
+
+                        <div class="chat-bubble chat-bubble--bot"><label for="contentCrecimientoPersonal" class="chat-question">¿Qué has aprendido hoy?</label></div>
+
+                        <div class="chat-bubble chat-bubble--bot"><p id="hint-contentCrecimientoPersonal">Aprendizajes, nuevas habilidades y momentos de autoconocimiento.</p></div>
+
+                        <div class="chat-bubble chat-bubble--me">
+                            <textarea name="contentCrecimientoPersonal" id="contentCrecimientoPersonal" class="chat-input" rows="1"
+                                      aria-describedby="hint-contentCrecimientoPersonal"
+                                      th:text="${journalEntry.contentCrecimientoPersonal}"></textarea>
+                        </div>
+
+                        <div class="chat-bubble chat-bubble--bot"><label for="contentRelacionesSociales" class="chat-question">¿Con quién has pasado tiempo hoy?</label></div>
+
+                        <div class="chat-bubble chat-bubble--bot"><p id="hint-contentRelacionesSociales">Familia, amigos, pareja, etc.</p></div>
+
+                        <div class="chat-bubble chat-bubble--me">
+                            <textarea name="contentRelacionesSociales" id="contentRelacionesSociales" class="chat-input" rows="1"
+                                      aria-describedby="hint-contentRelacionesSociales"
+                                      th:text="${journalEntry.contentRelacionesSociales}"></textarea>
+                        </div>
+
+                        <div class="chat-bubble chat-bubble--bot"><label for="contentPasatiemposCreatividad" class="chat-question">¿Has practicado algún hobby creativo?</label></div>
+
+                        <div class="chat-bubble chat-bubble--bot"><p id="hint-contentPasatiemposCreatividad">Música, dibujo, escritura… lo que hayas creado hoy.</p></div>
+
+                        <div class="chat-bubble chat-bubble--me">
+                            <textarea name="contentPasatiemposCreatividad" id="contentPasatiemposCreatividad" class="chat-input" rows="1"
+                                      aria-describedby="hint-contentPasatiemposCreatividad"
+                                      th:text="${journalEntry.contentPasatiemposCreatividad}"></textarea>
+                        </div>
+
+                        <div class="chat-bubble chat-bubble--bot"><label for="contentRecreacionDiversion" class="chat-question">¿Qué has hecho para divertirte hoy?</label></div>
+
+                        <div class="chat-bubble chat-bubble--bot"><p id="hint-contentRecreacionDiversion">Tu entretenimiento y recreación.</p></div>
+
+                        <div class="chat-bubble chat-bubble--me">
+                            <textarea name="contentRecreacionDiversion" id="contentRecreacionDiversion" class="chat-input" rows="1"
+                                      aria-describedby="hint-contentRecreacionDiversion"
+                                      th:text="${journalEntry.contentRecreacionDiversion}"></textarea>
+                        </div>
+
+                        <div class="chat-bubble chat-bubble--bot"><label for="contentEspiritualidadProposito" class="chat-question">¿Has reflexionado sobre tus valores o tu propósito?</label></div>
+
+                        <div class="chat-bubble chat-bubble--bot"><p id="hint-contentEspiritualidadProposito">Valores, gratitud y conexión con algo más grande.</p></div>
+
+                        <div class="chat-bubble chat-bubble--me">
+                            <textarea name="contentEspiritualidadProposito" id="contentEspiritualidadProposito" class="chat-input" rows="1"
+                                      aria-describedby="hint-contentEspiritualidadProposito"
+                                      th:text="${journalEntry.contentEspiritualidadProposito}"></textarea>
+                        </div>
+
+                        <div class="chat-bubble chat-bubble--bot"><label for="contentContribucionLegado" class="chat-question">¿Cómo has contribuido hoy a los demás o al mundo?</label></div>
+
+                        <div class="chat-bubble chat-bubble--bot"><p id="hint-contentContribucionLegado">La marca que has dejado en él.</p></div>
+
+                        <div class="chat-bubble chat-bubble--me">
+                            <textarea name="contentContribucionLegado" id="contentContribucionLegado" class="chat-input" rows="1"
+                                      aria-describedby="hint-contentContribucionLegado"
+                                      th:text="${journalEntry.contentContribucionLegado}"></textarea>
+                        </div>
+
+                        <div class="chat-bubble chat-bubble--bot"><p>¿Guardamos los cambios?</p></div>
+
+                        <div class="chat-actions">
+                            <button type="submit" id="saveButton"
+                                    class="text-textPrimary button-accent transition-colors duration-300 py-2 px-3 rounded-md select-none flex items-center justify-center">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-save"/></svg>
+                                &nbsp;&nbsp;Guardar
+                            </button>
+                        </div>
+                    </div>
+
+                </form>
+            </div>
+        </main>
+    </div>
 
 <script th:src="@{/js/deleteFeature_openModal.js}" defer></script>
 <script th:src="@{/js/alpine.js}" defer></script>
+<script>
+    // Answer bubbles grow with their text (no inner scrollbar, no manual resize handle)
+    (function () {
+        var fields = document.querySelectorAll('textarea.chat-input');
+        function fit(el) { el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px'; }
+        function fitAll() { fields.forEach(fit); }
+        fields.forEach(function (el) { el.addEventListener('input', function () { fit(el); }); });
+        fitAll();
+        window.addEventListener('resize', fitAll);
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
+    })();
+</script>
 </body>
 
 </html>

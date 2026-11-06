@@ -10,12 +10,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Topaz</title>
     <link th:href="@{/css/output.css}" rel="stylesheet">
+    <style>
+        /* About page: TODO: extract this to components.css */
+        .about-card { padding: 2.5rem 2rem 2rem; }
+
+        .about-hero { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; isolation: isolate; }
+        .about-hero::before {                      /* soft teal glow behind the icon */
+            content: ""; position: absolute; z-index: -1; top: -2rem; left: 50%;
+            width: 22rem; height: 14rem; transform: translateX(-50%);
+            background: radial-gradient(closest-side, var(--accent-soft), transparent);
+        }
+        .about-icon { width: 8rem; height: 8rem; object-fit: contain; filter: drop-shadow(0 10px 18px var(--accent-glow)); }
+        .about-name { margin-top: 1rem; font-size: 2.25rem; line-height: 1.1; font-weight: 700; color: var(--text-accent); letter-spacing: -0.02em;}
+        .about-dev  { margin-top: 0.25rem; color: var(--text-secondary); }
+        .about-version {
+            margin-top: 0.75rem; padding: 0.15rem 0.8rem; border-radius: var(--r-pill);
+            font-size: 0.8125rem; font-weight: 500; color: var(--text-accent);
+            background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 40%, transparent);
+        }
+        .about-link { display: inline-flex; align-items: center; gap: 0.5rem; margin-top: 1.25rem; padding: 0.55rem 1.25rem; text-decoration: none; }
+
+        .about-desc { max-width: 36rem; margin: 1.75rem auto 0; text-align: center; line-height: 1.65; color: var(--text-secondary); }
+
+        .about-h {
+            margin: 2.25rem 0 0.9rem; text-align: center; font-size: 0.75rem; font-weight: 500;
+            letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary);
+        }
+        .about-features { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.75rem; }
+        .about-feature {
+            flex: 1 1 13rem; max-width: 16rem; padding: 1rem; text-align: left;
+            background: var(--glass-inset-bg); border: 1px solid var(--glass-border);
+            border-radius: var(--r-md); box-shadow: inset 0 1px 0 var(--glass-highlight);
+        }
+        .about-feature-icon {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 2.25rem; height: 2.25rem; margin-bottom: 0.6rem; border-radius: 50%;
+            color: var(--text-accent); background: var(--accent-soft);
+        }
+        .about-feature h4 { font-weight: 700; color: var(--text-primary); }
+        .about-feature p  { margin-top: 0.15rem; font-size: 0.875rem; line-height: 1.5; color: var(--text-secondary); }
+
+        .about-privacy {
+            display: flex; align-items: center; gap: 0.9rem; max-width: 34rem; margin: 1.75rem auto 0;
+            padding: 1rem 1.25rem; border-radius: var(--r-md);
+            background: var(--accent-soft); border: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+        }
+        .about-privacy svg { flex: none; color: var(--text-accent); }
+        .about-privacy p { font-size: 0.9rem; line-height: 1.5; color: var(--text-primary); }
+
+        .about-list {
+            max-width: 34rem; margin: 0 auto; overflow: hidden;
+            background: var(--glass-inset-bg); border: 1px solid var(--glass-border);
+            border-radius: var(--r-md); box-shadow: inset 0 1px 0 var(--glass-highlight);
+        }
+        .about-row { display: flex; justify-content: space-between; align-items: baseline; gap: 1.5rem; padding: 0.7rem 1rem; font-size: 0.9rem; }
+        .about-row + .about-row { border-top: 1px solid var(--glass-edge); }
+        .about-row dt { flex: none; color: var(--text-secondary); }
+        .about-row dd { margin: 0; text-align: right; color: var(--text-primary); }
+        .about-row dd.about-mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.75rem; word-break: break-all; user-select: all; }
+    </style>
 </head>
 
 <body class="font-sans leading-normal tracking-normal flex min-h-screen">
-    <!-- Icon sprite: only the icons this page uses (replaces the 400 KB lucide.js) -->
-    <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"><symbol id="icon-arrow-up-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4"/><path d="M12 16V8"/></symbol><symbol id="icon-bar-chart-2" viewBox="0 0 24 24"><path d="M5 21v-6"/><path d="M12 21V3"/><path d="M19 21V9"/></symbol><symbol id="icon-book-open" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></symbol><symbol id="icon-brain" viewBox="0 0 24 24"><path d="M12 18V5"/><path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/><path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/><path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/><path d="M18 18a4 4 0 0 0 2-7.464"/><path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/><path d="M6 18a4 4 0 0 1-2-7.464"/><path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/></symbol><symbol id="icon-home" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol><symbol id="icon-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol><symbol id="icon-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></symbol><symbol id="icon-refresh-cw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol><symbol id="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol></svg>
-    <!-- Sidebar (Liquid Glass) -->
+<!-- Icon sprite: only the icons this page uses (replaces the 400 KB lucide.js) -->
+<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden"><symbol id="icon-arrow-up-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="m16 12-4-4-4 4"/><path d="M12 16V8"/></symbol><symbol id="icon-bar-chart-2" viewBox="0 0 24 24"><path d="M5 21v-6"/><path d="M12 21V3"/><path d="M19 21V9"/></symbol><symbol id="icon-book-open" viewBox="0 0 24 24"><path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h5a4 4 0 0 1 4 4 4 4 0 0 1 4-4h5a1 1 0 0 1 1 1v13a1 1 0 0 1-1 1h-6a3 3 0 0 0-3 3 3 3 0 0 0-3-3z"/></symbol><symbol id="icon-brain" viewBox="0 0 24 24"><path d="M12 18V5"/><path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/><path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/><path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/><path d="M18 18a4 4 0 0 0 2-7.464"/><path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/><path d="M6 18a4 4 0 0 1-2-7.464"/><path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/></symbol><symbol id="icon-home" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"/><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></symbol><symbol id="icon-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></symbol><symbol id="icon-moon" viewBox="0 0 24 24"><path d="M20.985 12.486a9 9 0 1 1-9.473-9.472c.405-.022.617.46.402.803a6 6 0 0 0 8.268 8.268c.344-.215.825-.004.803.401"/></symbol><symbol id="icon-refresh-cw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol><symbol id="icon-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></symbol><symbol id="icon-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></symbol><symbol id="icon-shield-check" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"/><path d="m9 12 2 2 4-4"/></symbol></svg>
+
+<!-- Sidebar (Liquid Glass) -->
 <aside class="w-64 glass-sidebar text-textPrimary p-4 flex flex-col items-center sidebar m-4" aria-label="Navegación principal">
 
     <!-- Logo -->
@@ -25,109 +85,134 @@
 
     <!-- Navigation -->
     <nav class="space-y-2 w-full flex flex-col items-center">
-            <a href="/dashboard/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-home"/></svg> Inicio
-            </a>
-            <a href="/journal/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-book-open"/></svg> Diario
-            </a>
-            <a href="/revision/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-refresh-cw"/></svg> Revisión
-            </a>
-            <a href="/innerwork/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-brain"/></svg> Trabajo Interno
-            </a>
-            <a href="/stats/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-bar-chart-2"/></svg> Estadísticas
-            </a>
-            <a href="/meditacion/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-moon"/></svg> Meditación
-            </a>
-            <a href="/about" class="w-full flex items-center gap-2 text-left py-2 px-4 button-accent select-none" aria-current="page">
-                <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-info"/></svg> Sobre Topaz
-            </a>
+        <a href="/dashboard/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-home"/></svg> Inicio
+        </a>
+        <a href="/journal/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-book-open"/></svg> Diario
+        </a>
+        <a href="/revision/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-refresh-cw"/></svg> Revisión
+        </a>
+        <a href="/innerwork/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-brain"/></svg> Trabajo Interno
+        </a>
+        <a href="/stats/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-bar-chart-2"/></svg> Estadísticas
+        </a>
+        <a href="/meditacion/load" class="w-full flex items-center gap-2 text-left py-2 px-4 button-sidebar select-none">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-moon"/></svg> Meditación
+        </a>
+        <a href="/about" class="w-full flex items-center gap-2 text-left py-2 px-4 button-accent select-none" aria-current="page">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-info"/></svg> Sobre Topaz
+        </a>
     </nav>
 </aside>
 
-
 <!-- Main content -->
-    <div class="main-content flex-grow p-6">
-        <main class="container mx-auto mt-6 p-4">
-            <h1 class="text-3xl font-bold mb-4 text-textPrimary select-none">Sobre Topaz</h1>
+<div class="main-content flex-grow p-6">
+    <main class="container mx-auto p-4">
+        <!-- <h1 class="text-3xl font-bold mb-6 text-textPrimary select-none">Sobre Topaz</h1> -->
 
-            <div class="glass-card p-6 mb-6 select-none">
-                <p class="text-lg font-bold text-accent">Desarrollado por Sean Leitch para Selekode Software</p>
-                <p class="text-xl mb-4 text-accent">Versión 26.2</p>
+        <div class="glass-card about-card">
+            <!-- Hero: icon, name, developer, version, website -->
+            <header class="about-hero select-none">
+                <img th:src="@{/images/topaz-logo.png}" alt="Topaz" class="about-icon">
+                <h2 class="about-name">Topaz</h2>
+                <p class="about-dev">por MFS Lab</p>
+                <span class="about-version">Versión 26.11</span>
+            </header>
 
-                <p class="text-base mb-4 text-textPrimary">
-                    Topaz es una aplicación creada para ayudarte a registrar tus pensamientos, emociones y objetivos
-                    personales de forma sencilla.
-                    Su desarrollo se basa en principios científicos respaldados por evidencia empírica, con el propósito
-                    de fortalecer el bienestar
-                    emocional y psicológico del usuario.
-                </p>
+            <!-- Description -->
+            <p class="about-desc">
+                Topaz es una aplicación libre y de código abierto para tu desarrollo personal.<br>
+                Te acompaña en el día a día: escribe tu diario, repasa cómo te sientes,
+                trabaja en tu interior y encuentra calma con meditaciones guiadas.
+            </p>
 
-                <p class="text-base mb-4 text-textPrimary">
-                    A través de las entradas de diario y las revisiones emocionales, puedes reflexionar sobre tu día, hacer introspección y hacer un seguimiento de tu estado emocional.
-                </p>
-
-                <p class="text-base mb-4 text-textPrimary">
-                    La función de Trabajo Interno te invita a escribir ensayos en los
-                    que exploras las áreas de tu vida
-                    o de tu personalidad en las que estás trabajando, ayudándote a profundizar en tus experiencias,
-                    valores y creencias, y a ganar
-                    mayor claridad y equilibrio emocional.
-                </p>
-
-                <p class="text-base mb-4 text-textPrimary">
-                    Además, Topaz ofrece estadísticas que analizan tus entradas de diario, revelando patrones en tus
-                    emociones y productividad.
-                    Esto te brinda una mejor comprensión de tu progreso y te ayuda a tomar decisiones informadas para tu
-                    crecimiento personal.
-                </p>
-
-                <p class="text-base mb-4 text-textPrimary">
-                    Finalmente, Topaz incluye una función de meditación con temporizador ajustable, pensada para que
-                    encuentres momentos de calma
-                    y concentración a lo largo del día.
-                </p>
-
+            <!-- What you can do
+            <section aria-labelledby="about-features-title">
+                <h3 id="about-features-title" class="about-h select-none">Qué puedes hacer</h3>
+                <div class="about-features">
+                    <div class="about-feature">
+                        <span class="about-feature-icon"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-book-open"/></svg></span>
+                        <h4>Diario</h4>
+                        <p>Registra tu día por áreas: salud, trabajo, relaciones, ocio y más.</p>
+                    </div>
+                    <div class="about-feature">
+                        <span class="about-feature-icon"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-refresh-cw"/></svg></span>
+                        <h4>Revisión</h4>
+                        <p>Repasa tus emociones y vuelve sobre tus entradas pasadas.</p>
+                    </div>
+                    <div class="about-feature">
+                        <span class="about-feature-icon"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-brain"/></svg></span>
+                        <h4>Trabajo Interno</h4>
+                        <p>Trabaja en tu interior con calma y a tu ritmo.</p>
+                    </div>
+                    <div class="about-feature">
+                        <span class="about-feature-icon"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-bar-chart-2"/></svg></span>
+                        <h4>Estadísticas</h4>
+                        <p>Observa tu evolución con gráficos claros.</p>
+                    </div>
+                    <div class="about-feature">
+                        <span class="about-feature-icon"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-moon"/></svg></span>
+                        <h4>Meditación</h4>
+                        <p>Meditaciones guiadas para encontrar calma.</p>
+                    </div>
+                </div>
+            </section>
+            -->
+            <!-- Privacy -->
+            <div class="about-privacy">
+                <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-shield-check"/></svg>
+                <p><strong>Tus datos son solo tuyos.</strong> No hay nada en la nube: todo permanece en tu equipo, en la base de datos local que ves abajo.</p>
             </div>
 
-            <div class="glass-card p-6 mb-6">
-                <p class="text-lg font-bold text-accent select-none">Ruta de la BBDD</p>
+            <!-- Details -->
+            <section aria-labelledby="about-details-title">
+                <h3 id="about-details-title" class="about-h select-none">Detalles</h3>
+                <dl class="about-list">
+                    <!--
+                    <div class="about-row"><dt>Versión</dt><dd>27.1</dd></div>
+                    <div class="about-row"><dt>Desarrollado por</dt><dd>MFS Lab</dd></div>
+                    <div class="about-row"><dt>Licencia</dt><dd>Código abierto</dd></div>
+                    -->
+                    <div class="about-row"><dt>Base de datos</dt><dd class="about-mono" th:text="${databasePath}"></dd></div>
+                </dl>
+            </section>
+        </div>
 
-                <p class="text-base mb-4 text-textPrimary select-all" th:text="${databasePath}"></p>
+        <!-- Theme -->
+        <div class="glass-card p-6 mt-6 text-center">
+            <p class="text-lg font-bold text-accent select-none mb-3">Tema</p>
+            <button id="theme-toggle" class="inline-flex items-center gap-2 py-2 px-4 border rounded-md transition-colors duration-300 select-none button-theme-toggle">
+                <!--
+                <span class="theme-icon-sun hidden"><svg class="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-sun"/></svg></span>
+                <span class="theme-icon-moon"><svg class="w-5 h-5 text-textSecondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-moon"/></svg></span>
+                -->
+                <span id="theme-toggle-text" class="text-textPrimary font-medium">Modo Oscuro</span>
+            </button>
+        </div>
+
+        <!-- Update banner -->
+        <div class="glass-card p-6 mt-6" th:if="${updateInfo.updateAvailable}">
+            <div class="flex items-center justify-center gap-3 flex-wrap text-center">
+                <svg class="w-6 h-6 text-accent shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-arrow-up-circle"/></svg>
+                <span class="text-textPrimary">
+                        Nueva versión disponible:
+                        <strong th:text="${updateInfo.latestVersion}"></strong>
+                        (Tienes la <span th:text="${updateInfo.currentVersion}"></span>).
+                    </span>
+                <a href="https://mfslab.github.io/TopazApp" target="_blank" class="btn-update">
+                    Actualizar ahora
+                </a>
             </div>
-
-            <div class="glass-card p-6 mb-6">
-                <p class="text-lg font-bold text-accent select-none">Seleccionar tema:</p>
-                <button id="theme-toggle" class="mt-4 flex items-center gap-2 py-2 px-4 border rounded-md transition-colors duration-300 select-none button-theme-toggle">
-                    <span class="theme-icon-sun hidden"><svg class="w-5 h-5 text-accent" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-sun"/></svg></span>
-                    <span class="theme-icon-moon"><svg class="w-5 h-5 text-textSecondary" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-moon"/></svg></span>
-                    <span id="theme-toggle-text" class="text-textPrimary font-medium">Modo Oscuro</span>
-                </button>
-            </div>
-
-            <div class="glass-card p-6" th:if="${updateInfo.updateAvailable}">
-                <p>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-arrow-up-circle"/></svg>
-                    Nueva versión disponible: <strong th:text="${updateInfo.latestVersion}"></strong>
-                    (Tienes la <span th:text="${updateInfo.currentVersion}"></span>).
-                    <a href="https://selekode.github.io/TopazApp" target="_blank" class="btn-update">
-                        Actualizar ahora
-                    </a>
-                </p>
-            </div>
-        </main>
-    </div>
-
+        </div>
     </main>
-    </div>
+</div>
 
-    </div>
-    <script th:src="@{/js/theme.js}" defer></script>
-    <script th:src="@{/js/alpine.js}" defer></script>
+<script th:src="@{/js/theme.js}" defer></script>
+<script th:src="@{/js/alpine.js}" defer></script>
 </body>
 
 </html>
