@@ -101,7 +101,7 @@ public class JournalService {
 
 	public void save(JournalEntry entry) throws Exception {
 		if (entry.getDate() == null) {
-	        entry.setDate(LocalDate.now()); // default to today
+	        entry.setDate(LocalDate.now());
 	    }
 		journalRepository.save(encryptEntry(entry));
 	}

@@ -11,6 +11,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Topaz</title>
     <link th:href="@{/css/output.css}" rel="stylesheet">
+    <link th:href="@{/css/flatpickr.min.css}" rel="stylesheet">
+    <script th:src="@{/js/flatpickr.js}"></script>
 </head>
 
 <body class="font-sans leading-normal tracking-normal flex min-h-screen">
@@ -75,8 +77,14 @@
                     <div class="chat-thread">
                         <div class="chat-bubble chat-bubble--bot"><p>Hola, vamos a repasar tu día. En el diario hablamos sobre <i>el qué pasó</i>, los hechos.</p></div>
 
-                        <div class="chat-bubble chat-bubble--bot"><label for="title" class="chat-question">Para empezar, ¿qué título le pondrías a hoy?</label></div>
+                        <div class="chat-bubble chat-bubble--bot"><label for="date" class="chat-question">¿Para qué fecha es esta entrada?</label></div>
 
+                        <div class="chat-bubble chat-bubble--me">
+                            <input type="text" name="date" id="date" class="chat-input date-picker"
+                                   th:field="*{date}" placeholder="Selecciona una fecha..." />
+                        </div>
+
+                        <div class="chat-bubble chat-bubble--bot"><label for="title" class="chat-question">Para empezar, ¿qué título le pondrías a hoy?</label></div>
                         <div class="chat-bubble chat-bubble--me chat-bubble--title">
                             <input type="text" name="title" id="title" class="chat-input"
                                    th:value="${journalEntry.title}"/>
@@ -212,7 +220,6 @@
                     </div>
                     <!-- Hidden fields -->
                     <input type="hidden" th:field="*{id}" />
-                    <input type="hidden" th:field="*{date}" />
                 </form>
             </div>
         </main>
@@ -220,18 +227,30 @@
 
     <script th:src="@{/js/deleteFeature_openModal.js}" defer></script>
     <script th:src="@{/js/alpine.js}" defer></script>
-<script>
-    // Answer bubbles grow with their text (no inner scrollbar, no manual resize handle)
-    (function () {
-        var fields = document.querySelectorAll('textarea.chat-input');
-        function fit(el) { el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px'; }
-        function fitAll() { fields.forEach(fit); }
-        fields.forEach(function (el) { el.addEventListener('input', function () { fit(el); }); });
-        fitAll();
-        window.addEventListener('resize', fitAll);
-        if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
-    })();
-</script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var dateInput = document.getElementById("date");
+            if (dateInput && typeof flatpickr !== "undefined") {
+                flatpickr(dateInput, {
+                    dateFormat: "Y-m-d",
+                    altInput: true,
+                    altFormat: "Y-m-d",
+                    altInputClass: "chat-input",
+                    defaultDate: dateInput.value || "today"
+                });
+            }
+        });
+
+        (function () {
+            var fields = document.querySelectorAll('textarea.chat-input');
+            function fit(el) { el.style.height = 'auto'; el.style.height = el.scrollHeight + 'px'; }
+            function fitAll() { fields.forEach(fit); }
+            fields.forEach(function (el) { el.addEventListener('input', function () { fit(el); }); });
+            fitAll();
+            window.addEventListener('resize', fitAll);
+            if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitAll);
+        })();
+    </script>
 </body>
 
 </html>
