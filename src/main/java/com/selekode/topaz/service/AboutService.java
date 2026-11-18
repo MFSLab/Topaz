@@ -8,10 +8,14 @@ public class AboutService {
     @Value("${app.data.dir}")
     private String appDataDirectory;
 
-    public String getDatabasePath() {
-        String databasePath = new String();
-        databasePath = appDataDirectory;
+    @Value("${app.jcef.dir}")
+    private String jcefBundleDirectory;
 
-        return databasePath;
+    public String getDatabasePath() {
+        return appDataDirectory;
+    }
+
+    public String getJcefBundlePath() {
+        return jcefBundleDirectory;
     }
 }

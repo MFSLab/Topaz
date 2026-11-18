@@ -130,41 +130,11 @@
                 trabaja en tu interior y encuentra calma con meditaciones guiadas.
             </p>
 
-            <!-- What you can do
-            <section aria-labelledby="about-features-title">
-                <h3 id="about-features-title" class="about-h select-none">Qué puedes hacer</h3>
-                <div class="about-features">
-                    <div class="about-feature">
-                        <span class="about-feature-icon"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-book-open"/></svg></span>
-                        <h4>Diario</h4>
-                        <p>Registra tu día por áreas: salud, trabajo, relaciones, ocio y más.</p>
-                    </div>
-                    <div class="about-feature">
-                        <span class="about-feature-icon"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-refresh-cw"/></svg></span>
-                        <h4>Revisión</h4>
-                        <p>Repasa tus emociones y vuelve sobre tus entradas pasadas.</p>
-                    </div>
-                    <div class="about-feature">
-                        <span class="about-feature-icon"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-brain"/></svg></span>
-                        <h4>Trabajo Interno</h4>
-                        <p>Trabaja en tu interior con calma y a tu ritmo.</p>
-                    </div>
-                    <div class="about-feature">
-                        <span class="about-feature-icon"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-bar-chart-2"/></svg></span>
-                        <h4>Estadísticas</h4>
-                        <p>Observa tu evolución con gráficos claros.</p>
-                    </div>
-                    <div class="about-feature">
-                        <span class="about-feature-icon"><svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-moon"/></svg></span>
-                        <h4>Meditación</h4>
-                        <p>Meditaciones guiadas para encontrar calma.</p>
-                    </div>
-                </div>
-            </section>
-            -->
             <!-- Privacy -->
             <div class="about-privacy">
+                <!--
                 <svg class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><use href="#icon-shield-check"/></svg>
+                -->
                 <p><strong>Tus datos son solo tuyos.</strong> No hay nada en la nube: todo permanece en tu equipo, en la base de datos local que ves abajo.</p>
             </div>
 
@@ -172,12 +142,8 @@
             <section aria-labelledby="about-details-title">
                 <h3 id="about-details-title" class="about-h select-none">Detalles</h3>
                 <dl class="about-list">
-                    <!--
-                    <div class="about-row"><dt>Versión</dt><dd>27.1</dd></div>
-                    <div class="about-row"><dt>Desarrollado por</dt><dd>MFS Lab</dd></div>
-                    <div class="about-row"><dt>Licencia</dt><dd>Código abierto</dd></div>
-                    -->
                     <div class="about-row"><dt>Base de datos</dt><dd class="about-mono" th:text="${databasePath}"></dd></div>
+                    <div class="about-row"><dt>Motor web (Chromium)</dt><dd class="about-mono" th:text="${jcefBundlePath}"></dd></div>
                 </dl>
             </section>
         </div>

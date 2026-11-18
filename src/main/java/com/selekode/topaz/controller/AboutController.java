@@ -18,9 +18,10 @@ public class AboutController {
 	private UpdateAppService updateService;
 
 	@GetMapping("/about")
-	  public String loadPageAbout(Model model) {
-		  model.addAttribute("databasePath", aboutService.getDatabasePath());
-		  model.addAttribute("updateInfo", updateService.checkUpdate());
-		  return "about";
-	  }
+	public String loadPageAbout(Model model) {
+		model.addAttribute("databasePath", aboutService.getDatabasePath());
+		model.addAttribute("jcefBundlePath", aboutService.getJcefBundlePath());
+		model.addAttribute("updateInfo", updateService.checkUpdate());
+		return "about";
+	}
 }

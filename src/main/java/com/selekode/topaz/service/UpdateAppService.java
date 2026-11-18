@@ -22,14 +22,16 @@ public class UpdateAppService {
         Map<String, Object> result = new HashMap<>();
         try {
             RestTemplate restTemplate = new RestTemplate();
-            JsonNode root = restTemplate.getForObject(UPDATE_URL, JsonNode.class);
-            String latestVersion = root.path("topaz").asText();
+            JsonNode latestVersionNode = restTemplate.getForObject(UPDATE_URL, JsonNode.class);
+            String latestVersion = latestVersionNode.path("topaz").asText();
 
             boolean updateAvailable = !currentVersion.equals(latestVersion);
 
             result.put("updateAvailable", updateAvailable);
             result.put("currentVersion", currentVersion);
             result.put("latestVersion", latestVersion);
+
+            System.out.println(result);
         } catch (Exception e) {
             result.put("updateAvailable", false);
             result.put("error", "No se pudo verificar la actualización");

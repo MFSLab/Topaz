@@ -17,10 +17,13 @@ public class AppBootstrap {
         createDirectories(dataDir);
         System.setProperty("app.data.dir", dataDir);
         System.out.println("APPDATA_DIRECTORY: " + String.valueOf(dataDir));
+
+        String jcefDir = AppDirectories.getJcefBundleDirectory();
+        System.setProperty("app.jcef.dir", jcefDir);
+        System.out.println("JCEF_DIRECTORY: " + jcefDir);
     }
 
     private static void createDirectories(String dataDir) {
-
         try {
             Files.createDirectories(Path.of(dataDir));
         } catch (Exception e) {
