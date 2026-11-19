@@ -15,6 +15,7 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.geom.RoundRectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.InputStream;
@@ -125,42 +126,77 @@ public class TopazWebview {
 		private final JLabel statusLabel;
 		private final JProgressBar progressBar;
 		private volatile boolean shown = false;
+		private static Font ubuntuFont = null;
+
+		// Static block to load the Ubuntu font (Make sure "Ubuntu-B.ttf" is in your project resources)
+		static {
+			try (InputStream is = SplashWindow.class.getResourceAsStream("/fonts/Ubuntu-B.ttf")) {
+				if (is != null) {
+					ubuntuFont = Font.createFont(Font.TRUETYPE_FONT, is).deriveFont(Font.BOLD, 22f);
+					GraphicsEnvironment.getLocalGraphicsEnvironment().registerFont(ubuntuFont);
+				}
+			} catch (Exception e) {
+				// Fallback to SansSerif if font file is missing
+				ubuntuFont = new Font("SansSerif", Font.BOLD, 22);
+			}
+		}
 
 		SplashWindow(BufferedImage icon) {
+			// macOS-friendly undecorated dialog
 			dialog = new JDialog((Frame) null, "Topaz Setup", false);
 			dialog.setUndecorated(true);
 			if (icon != null) {
 				dialog.setIconImage(icon);
 			}
 
-			JPanel panel = new JPanel();
+			// Enable window translucency/shape rounding for macOS native card look
+			dialog.setBackground(new Color(0, 0, 0, 0));
+
+			JPanel panel = new JPanel() {
+				@Override
+				protected void paintComponent(Graphics g) {
+					Graphics2D g2 = (Graphics2D) g.create();
+					g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+					// macOS Dark Mode background color (slightly translucent or rich dark gray)
+					g2.setColor(new Color(40, 40, 45, 245));
+					// Draw rounded rectangle with a 12px corner radius (native macOS window corner style)
+					g2.fill(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 14, 14));
+
+					// Subtle thin native border stroke
+					g2.setColor(new Color(255, 255, 255, 30));
+					g2.draw(new RoundRectangle2D.Double(0, 0, getWidth() - 1, getHeight() - 1, 14, 14));
+
+					g2.dispose();
+				}
+			};
+
 			panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-			panel.setBorder(BorderFactory.createCompoundBorder(
-					BorderFactory.createLineBorder(new Color(60, 60, 65), 1),
-					new EmptyBorder(24, 32, 24, 32)
-			));
-			panel.setBackground(new Color(28, 28, 32));
+			// Generous macOS-style padding
+			panel.setBorder(new EmptyBorder(28, 36, 28, 36));
+			panel.setOpaque(false);
 
 			JLabel titleLabel = new JLabel("Topaz");
-			titleLabel.setFont(new Font("SansSerif", Font.BOLD, 22));
-			titleLabel.setForeground(Color.WHITE);
+			// Apply Ubuntu font if loaded successfully
+			titleLabel.setFont(ubuntuFont != null ? ubuntuFont : new Font("SansSerif", Font.BOLD, 22));
+			titleLabel.setForeground(new Color(245, 245, 247)); // Apple's high-legibility system white
 			titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 			statusLabel = new JLabel("Preparing workspace...");
-			statusLabel.setFont(new Font("SansSerif", Font.PLAIN, 13));
-			statusLabel.setForeground(new Color(190, 190, 200));
+			statusLabel.setFont(new Font("SansSerif", Font.PLAIN, 12));
+			statusLabel.setForeground(new Color(152, 152, 157)); // Apple secondary label color
 			statusLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 			progressBar = new JProgressBar(0, 100);
-			progressBar.setPreferredSize(new Dimension(320, 10));
-			progressBar.setMaximumSize(new Dimension(320, 10));
+			progressBar.setPreferredSize(new Dimension(280, 6)); // Thinner, sleeker macOS style track
+			progressBar.setMaximumSize(new Dimension(280, 6));
 			progressBar.setStringPainted(false);
 			progressBar.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 			panel.add(titleLabel);
-			panel.add(Box.createVerticalStrut(12));
+			panel.add(Box.createVerticalStrut(8));
 			panel.add(statusLabel);
-			panel.add(Box.createVerticalStrut(14));
+			panel.add(Box.createVerticalStrut(18));
 			panel.add(progressBar);
 
 			dialog.getContentPane().add(panel);

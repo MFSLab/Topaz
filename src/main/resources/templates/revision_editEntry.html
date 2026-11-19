@@ -367,12 +367,28 @@
     document.addEventListener("DOMContentLoaded", function () {
         var dateInput = document.getElementById("date");
         if (dateInput && typeof flatpickr !== "undefined") {
+            var raw = (dateInput.value || "").trim();
+            var parsedDate = "today";
+
+            if (/^\d{1,2}\/\d{1,2}\/\d{2}$/.test(raw)) {
+                var parts = raw.split("/");
+                var year = 2000 + parseInt(parts[2], 10);
+                var month = parseInt(parts[0], 10) - 1;
+                var day = parseInt(parts[1], 10);
+                parsedDate = new Date(year, month, day);
+            } else if (/^\d{4}-\d{2}-\d{2}$/.test(raw)) {
+                parsedDate = raw;
+            } else if (raw) {
+                var fallback = new Date(raw);
+                if (!isNaN(fallback.getTime())) parsedDate = fallback;
+            }
+
             flatpickr(dateInput, {
                 dateFormat: "Y-m-d",
                 altInput: true,
                 altFormat: "Y-m-d",
                 altInputClass: "chat-input",
-                defaultDate: dateInput.value || "today"
+                defaultDate: parsedDate
             });
         }
     });
