@@ -11,11 +11,11 @@
 	</parent>
 	<groupId>com.selekode</groupId>
 	<artifactId>topaz</artifactId>
-	<version>26.11.0</version>
+	<version>26.12.0</version>
 	<packaging>jar</packaging>
 
 	<name>Topaz</name>
-	<description>Diario guiado y registro emocional</description>
+	<description>Diario guiado, registro emocional, herramienta de crecimiento personal</description>
 	<url />
 	<licenses>
 		<license />
